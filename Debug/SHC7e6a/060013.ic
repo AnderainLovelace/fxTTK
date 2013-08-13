@@ -1,0 +1,336 @@
+/* Translated by the Edison Design Group C++/C front end (version 2.42) */
+/* Mon Jul 22 08:35:55 2013 */
+#line 1 "E:\\Anderain\\fx-9860\\fxTTK\\dcconsole.cpp"
+#line 60 "C:\\Program Files\\CASIO\\fx-9860G SDK\\OS\\FX\\include\\dispbios.h"
+struct tag_DISPBOX;
+#line 67
+struct tag_GRAPHDATA;
+#line 79
+struct tag_DISPGRAPH;
+#line 26 "C:\\Program Files\\CASIO\\fx-9860G SDK\\OS\\SH\\include\\stddef.h"
+typedef unsigned long size_t;
+#line 60 "C:\\Program Files\\CASIO\\fx-9860G SDK\\OS\\FX\\include\\dispbios.h"
+struct tag_DISPBOX {
+int left;
+int top;
+int right;
+int bottom;};
+typedef struct tag_DISPBOX DISPBOX;
+
+struct tag_GRAPHDATA {
+int width;
+int height;
+unsigned char *pBitmap;};
+typedef struct tag_GRAPHDATA GRAPHDATA;
+#line 79
+struct tag_DISPGRAPH {
+int x;
+int y;
+GRAPHDATA GraphData;
+unsigned char WriteModify;
+unsigned char WriteKind;};
+typedef struct tag_DISPGRAPH DISPGRAPH;
+#line 20 "C:\\Program Files\\CASIO\\fx-9860G SDK\\OS\\SH\\include\\stdarg.h"
+typedef char *va_list;
+#line 18 "E:\\Anderain\\fx-9860\\fxTTK\\dcconsole.cpp"
+typedef unsigned uint;
+typedef unsigned char uchar;
+#line 21 "C:\\Program Files\\CASIO\\fx-9860G SDK\\OS\\FX\\include\\fxlib.h"
+extern void Bdisp_AllClr_VRAM(void);
+
+
+extern void Bdisp_AreaClr_VRAM(const DISPBOX *);
+#line 36
+extern void Bdisp_WriteGraph_VRAM(const DISPGRAPH *);
+
+
+
+extern void Bdisp_DrawLineVRAM(int, int, int, int);
+#line 50
+extern void PrintXY(int, int, const unsigned char *, int);
+#line 58
+extern int Bfile_ReadFile(int, void *, int, int);
+
+
+extern int Bfile_CloseFile(int);
+#line 81
+extern int GetKey(unsigned *);
+#line 61 "C:\\Program Files\\CASIO\\fx-9860G SDK\\OS\\SH\\include\\stdio.h"
+extern int vsprintf(char *, const char *, char *);
+#line 105 "C:\\Program Files\\CASIO\\fx-9860G SDK\\OS\\SH\\include\\stdlib.h"
+extern long atol(const char *);
+#line 49 "C:\\Program Files\\CASIO\\fx-9860G SDK\\OS\\SH\\include\\string.h"
+extern size_t strlen(const char *);
+#line 8 "E:\\Anderain\\fx-9860\\fxTTK\\file.h"
+extern int open_file(const char *, int);
+#line 26 "E:\\Anderain\\fx-9860\\fxTTK\\dcconsole.cpp"
+extern void ChsDraw__FiN41PUc(int, int, int, int, int, uchar *);
+#line 41
+extern void ChsDrawChar__FiN21UcT4(int, int, int, uchar, uchar);
+#line 54
+extern int ChsOpenHZK__Fv(void);
+#line 60
+extern void ChsCloseHZK__Fv(void);
+
+
+
+
+extern void ChsPrint__FiN21PCUc(int, int, int, const unsigned char *);
+#line 90
+extern void dAreaClear__FiN41(int, int, int, int, int);
+#line 104
+extern uint WaitKey__Fv(void);
+
+
+
+
+extern char dGetKeyChar__FUi(uint);
+#line 121
+extern int GetLineBox__FPciN32(char *, int, int, int, int);
+#line 177
+extern int get_int__Fv(void);
+#line 184
+extern void dConsoleRedraw__Fv(void);
+#line 194
+extern void dConsolePut__FPCc(const char *);
+#line 240
+extern int dPrintf__FPCce(const char *, ...);
+#line 24
+static int fh_HZK;
+#line 84
+uchar line_buf[5][11][2];
+extern int line_index;
+extern int line_x;
+extern int line_start;
+extern int line_count;
+#line 85
+int line_index = 0;
+int line_x = 0;
+int line_start = 0;
+int line_count = 0;
+#line 26
+void ChsDraw__FiN41PUc( int __983_18_x,  int __983_24_y,  int __983_30_width,  int __983_40_height,  int __983_51_mode,  uchar *__983_64_pGraph)
+{
+auto DISPGRAPH __985_12_dg;
+
+(__985_12_dg.x) = __983_18_x;
+(__985_12_dg.y) = __983_24_y;
+((__985_12_dg.GraphData).width) = __983_30_width;
+((__985_12_dg.GraphData).height) = __983_40_height;
+((__985_12_dg.GraphData).pBitmap) = __983_64_pGraph;
+(__985_12_dg.WriteModify) = ((unsigned char)(__983_51_mode + 1));
+(__985_12_dg.WriteKind) = ((unsigned char)1U);
+
+Bdisp_WriteGraph_VRAM(((const DISPGRAPH *)(&__985_12_dg))); return;
+}
+
+void ChsDrawChar__FiN21UcT4( int __998_23_x,  int __998_29_y,  int __998_35_sel,  uchar __998_45_c1,  uchar __998_54_c2)
+{
+auto uchar __1000_8_mat[24];
+auto uint __1001_7_sec;  auto uint __1001_11_pot;
+
+__1001_7_sec = ((uint)(((int)__998_45_c1) - 161));
+__1001_11_pot = ((uint)(((int)__998_54_c2) - 161));
+
+Bfile_ReadFile(fh_HZK, ((void *)((uchar *)__1000_8_mat)), 24, ((int)(((94U * __1001_7_sec) + __1001_11_pot) * 24U)));
+
+ChsDraw__FiN41PUc(__998_23_x, __998_29_y, 12, 12, __998_35_sel, ((uchar *)__1000_8_mat)); return;
+}
+
+int ChsOpenHZK__Fv(void)
+{
+fh_HZK = (open_file(((const char *)"\\\\crd0\\HZK12.df"), 128));
+return (int)(fh_HZK < 0);
+}
+
+void ChsCloseHZK__Fv(void)
+{
+Bfile_CloseFile(fh_HZK); return;
+}
+
+void ChsPrint__FiN21PCUc( int __1022_20_x,  int __1022_26_y,  int __1022_32_sel,  const unsigned char *__1022_58_str)
+{
+for (; ((int)((*__1022_58_str))); ++__1022_58_str)
+{
+if (((int)((*__1022_58_str))) & 128)
+{
+ChsDrawChar__FiN21UcT4(__1022_20_x, __1022_26_y, __1022_32_sel, ((*__1022_58_str)), (__1022_58_str[1]));
+++__1022_58_str;
+}
+
+else  {
+ChsDrawChar__FiN21UcT4(__1022_20_x, __1022_26_y, __1022_32_sel, ((uchar)163U), ((uchar)(128 + ((int)((*__1022_58_str))))));
+}
+__1022_20_x += 12;
+} return;
+}
+#line 90
+void dAreaClear__FiN41( int __1047_22_left,  int __1047_31_top,  int __1047_39_right,  int __1047_49_bottom,  int __1047_60_sel)
+{
+auto DISPBOX __1049_10_box;
+(__1049_10_box.left) = __1047_22_left; (__1049_10_box.top) = __1047_31_top; (__1049_10_box.right) = __1047_39_right; (__1049_10_box.bottom) = __1047_49_bottom;
+if (__1047_60_sel != 1) {
+Bdisp_AreaClr_VRAM(((const DISPBOX *)(&__1049_10_box))); }
+if (__1047_60_sel) {
+Bdisp_DrawLineVRAM(((__1049_10_box.left)), ((__1049_10_box.top)), ((__1049_10_box.right)), ((__1049_10_box.top)));
+Bdisp_DrawLineVRAM(((__1049_10_box.left)), ((__1049_10_box.bottom)), ((__1049_10_box.right)), ((__1049_10_box.bottom)));
+Bdisp_DrawLineVRAM(((__1049_10_box.left)), ((__1049_10_box.top)), ((__1049_10_box.left)), ((__1049_10_box.bottom)));
+Bdisp_DrawLineVRAM(((__1049_10_box.right)), ((__1049_10_box.top)), ((__1049_10_box.right)), ((__1049_10_box.bottom)));
+} return;
+}
+
+uint WaitKey__Fv(void)
+{
+auto uint __1063_7_key; GetKey((&__1063_7_key)); return __1063_7_key;
+}
+
+char dGetKeyChar__FUi( uint __1066_24_key)
+{
+if ((__1066_24_key >= 65U) && (__1066_24_key <= 90U)) {
+return (char)__1066_24_key; } else  {
+if ((__1066_24_key == 135U) || (__1066_24_key == 153U)) {
+return ((char)45); } else  {
+if ((__1066_24_key >= 48U) && (__1066_24_key <= 57U)) {
+return (char)__1066_24_key; } } }
+
+return ((char)0);
+}
+
+int GetLineBox__FPciN32( char *__1078_24_s,  int __1078_30_max,  int __1078_38_width,  int __1078_48_x,  int __1078_54_y)
+{
+auto int __1080_7_pos;
+auto int __1081_7_refresh = 1;
+auto uint __1082_7_key;
+auto char __1083_7_c;
+#line 123
+__1080_7_pos = ((int)(strlen(((const char *)__1078_24_s))));
+
+
+
+
+while (1)
+{
+if (__1081_7_refresh)
+{
+dAreaClear__FiN41(__1078_48_x, __1078_54_y, ((__1078_48_x + (__1078_38_width * 6)) + 2), (__1078_54_y + 10), 2);
+
+if (__1080_7_pos < (__1078_38_width - 1))
+{
+PrintXY((__1078_48_x + 1), (__1078_54_y + 2), ((const unsigned char *)((uchar *)__1078_24_s)), 0);
+PrintXY(((__1078_48_x + 1) + (__1080_7_pos * 6)), (__1078_54_y + 2), ((const unsigned char *)"_"), 0);
+}
+
+else  {
+PrintXY((__1078_48_x + 1), (__1078_54_y + 2), ((const unsigned char *)((uchar *)(((__1078_24_s + __1080_7_pos) - __1078_38_width) + 1))), 0);
+PrintXY(((__1078_48_x + 1) + ((__1078_38_width - 1) * 6)), (__1078_54_y + 2), ((const unsigned char *)"_"), 0);
+}
+__1081_7_refresh = 0;
+}
+
+GetKey((&__1082_7_key));
+
+if ((int)(__1083_7_c = (dGetKeyChar__FUi(__1082_7_key))))
+{
+if (__1080_7_pos >= __1078_30_max) { goto __T28612104; }
+
+(__1078_24_s[__1080_7_pos++]) = __1083_7_c; (__1078_24_s[__1080_7_pos]) = ((char)0);
+__1081_7_refresh = 1;
+}
+
+else  {
+if (__1082_7_key == 30025U)
+{
+if (__1080_7_pos <= 0) { goto __T28612104; }
+(__1078_24_s[--__1080_7_pos]) = ((char)0);
+__1081_7_refresh = 1;
+} else  {
+if (__1082_7_key == 30015U)
+{
+(*__1078_24_s) = ((char)0);
+__1080_7_pos = 0;
+__1081_7_refresh = 1;
+} else  {
+if (__1082_7_key == 30004U) { return 1; } else  {
+if (__1082_7_key == 30002U) { return 0; } } } }
+
+} __T28612104:;
+}
+}
+
+int get_int__Fv(void)
+{
+auto char __1136_7_buf[128];
+GetLineBox__FPciN32(((char *)__1136_7_buf), 128, 12, 0, 0);
+return (int)(atol(((const char *)((char *)__1136_7_buf))));
+}
+
+void dConsoleRedraw__Fv(void)
+{
+auto int __1143_6_i;  auto int __1143_8_j;  auto int __1143_10_left = 4;  auto int __1143_26_top = 2;
+Bdisp_AllClr_VRAM();
+for ((__1143_6_i = 0) , (__1143_8_j = line_start); (__1143_6_i < line_count); (++__1143_6_i) , (__1143_26_top += 12))
+{
+ChsPrint__FiN21PCUc(__1143_10_left, __1143_26_top, 0, ((const unsigned char *)((uchar *)((uchar (*)[2])(line_buf + __1143_8_j)))));
+if ((++__1143_8_j) >= 5) { __1143_8_j = 0; }
+} return;
+}
+void dConsolePut__FPCc( const char *__1151_31_str)
+{
+if (line_count == 0) { line_count = 1; }
+for (; ((int)((*__1151_31_str))); ++__1151_31_str)
+{
+if (((int)((*__1151_31_str))) != 10)
+{
+auto uchar *__1158_12_s; __1158_12_s = ((uchar *)(((uchar (*)[2])(line_buf + line_index)) + (line_x++)));
+if (((int)((*__1151_31_str))) & 128)
+{
+(__1158_12_s[0]) = ((uchar)((*__1151_31_str)));
+(__1158_12_s[1]) = ((uchar)((*(++__1151_31_str))));
+}
+
+else  {
+(__1158_12_s[0]) = ((uchar)163U);
+(__1158_12_s[1]) = ((uchar)(((int)((*__1151_31_str))) + 128));
+}
+}
+
+else  {
+(((uchar *)(((uchar (*)[2])(line_buf + line_index)) + line_x))[0]) = ((uchar)0U);
+line_x = 10;
+}
+if (line_x >= 10)
+{
+(((uchar *)(((uchar (*)[2])(line_buf + line_index)) + line_x))[0]) = ((uchar)0U);
+
+line_x = 0;
+if (line_count < 5)
+{
+++line_count;
+}
+
+else  {
+line_start++;
+if (line_start >= 5) { line_start = 0; }
+}
+line_index++;
+if (line_index >= 5) { line_index = 0; }
+}
+}
+(((uchar *)(((uchar (*)[2])(line_buf + line_index)) + line_x))[0]) = ((uchar)0U);
+dConsoleRedraw__Fv(); return;
+}
+
+int dPrintf__FPCce( const char *__1197_27_format, ...)
+{
+auto char __1199_7_buf[256];
+auto int __1200_7_length;
+auto va_list __1201_10_arg_list;
+
+__1201_10_arg_list = ((((unsigned)((int)(((char *)(&__1197_27_format)) + 4UL))) % 4U) ? ((((char *)(&__1197_27_format)) + 4UL) + 4UL) : (((char *)(&__1197_27_format)) + 4UL));
+__1200_7_length = (vsprintf(((char *)__1199_7_buf), __1197_27_format, __1201_10_arg_list));
+
+
+dConsolePut__FPCc(((const char *)((char *)__1199_7_buf)));
+WaitKey__Fv();
+return __1200_7_length;
+}

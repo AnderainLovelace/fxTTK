@@ -1,0 +1,16 @@
+[DLSimRunSpace]
+
+[Breakpoint]
+File=E:\Anderain\fx-9860\fxTTK\fxTKK.c
+Line=15
+Flags=00001012
+
+[Breakpoint]
+File=E:\Anderain\fx-9860\fxTTK\fxTKK.c
+Line=9
+Flags=00001012
+
+[Breakpoint]
+File=E:\Anderain\fx-9860\fxTTK\dcconsole.c
+Line=49
+Flags=00001012

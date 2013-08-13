@@ -1,0 +1,20 @@
+#_USE_RECOMPILE
+-We=--template_info_file=E:\Anderain\fx-9860\fxTTK\Debug\tpldir\ttk_core.ti
+-We=--ii_file=E:\Anderain\fx-9860\fxTTK\Debug\tpldir\ttk_core.ii
+-We=--no_auto_instantiation
+ 
+
+-cpu=sh3
+-include="C:\Program Files\CASIO\fx-9860G SDK\OS\FX\include","E:\Anderain\fx-9860\fxTTK"
+-objectfile="E:\Anderain\fx-9860\fxTTK\Debug\ttk_core.obj"
+-show=source
+-listfile="E:\Anderain\fx-9860\fxTTK\Debug\ttk_core.lst"
+-size
+-noinline
+-chgincpath
+-errorpath
+-lang=cpp
+-nologo
+-debug
+
+"E:\Anderain\fx-9860\fxTTK\ttk_core.cpp"

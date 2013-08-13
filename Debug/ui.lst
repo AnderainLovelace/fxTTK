@@ -1,0 +1,1523 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Anderain\fx-9860\fxTTK\ui.cpp
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          ui.cpp     1    extern "C"
+          ui.cpp     2    {
+          ui.cpp     3    #include <fxlib.h>
+          ui.cpp     4    }
+          ui.cpp     5    #include <stdio.h>
+          ui.cpp     6    #include <string.h>
+          ui.cpp     7    #include "dcconsole.h"
+          ui.cpp     8    #include "def.h"
+          ui.cpp     9    #include "ui.h"
+          ui.cpp    10    typedef unsigned int    uint;
+          ui.cpp    11    
+          ui.cpp    12    #define PCUCHAR const unsigned char *
+          ui.cpp    13    
+          ui.cpp    14    const char * HUASE_STRING[]     = {"无色","黑桃","红桃","草花","方片"};
+          ui.cpp    15    const char * DIANSHU_STRING[]   = {"无点数","A","2","3","4","5","6","7","8","9","10","J","Q","K"};
+          ui.cpp    16    
+          ui.cpp    17    //101-103
+          ui.cpp    18    static const char * LEIXING1_STRING[]   = {"杀","闪","桃"};
+          ui.cpp    19    //201-210
+          ui.cpp    20    static const char * LEIXING2_STRING[]   = {"过河拆桥","顺手牵羊","无中生有","决斗","借刀杀人","桃园结义","
+                         +五谷丰登","南蛮入侵","万箭齐发","无懈可击"};
+          ui.cpp    21    //251-252
+          ui.cpp    22    static const char * LEIXING3_STRING[]   = {"乐不思蜀","闪电",};
+          ui.cpp    23    //301-308
+          ui.cpp    24    static const char * LEIXING4_STRING[]   = {"诸葛连弩1","雌雄双股剑2","青釭剑2","青龙偃月刀3","丈八蛇矛3","
+                         +贯石斧3","方天画戟4","麒麟弓5"};
+          ui.cpp    25    //331
+          ui.cpp    26    static const char * LEIXING5_STRING[]   = {"八卦阵"};
+          ui.cpp    27    //361-363
+          ui.cpp    28    static const char * LEIXING6_STRING[]   = {"赤兔-1","大宛-1","紫辛-1"};
+          ui.cpp    29    //381-383
+          ui.cpp    30    static const char * LEIXING7_STRING[]   = {"爪黄飞电+1","的卢+1","绝影+1"};
+          ui.cpp    31    
+          ui.cpp    32    #define IN_RANGE(l,a,b)         ((l)>=(a) && (l)<=(b))
+          ui.cpp    33    
+          ui.cpp    34    char card_info[128];
+          ui.cpp    35    
+          ui.cpp    36    char * GetCardInfo(pai & p)
+P   00000000              _GetCardInfo__FR3pai:            ; function: GetCardInfo(pai &)
+                                                           ; frame size=20
+                                                           ; used runtime library name:
+                                                           ; __slow_strcpy
+    00000000 4F22                   STS.L       PR,@-R15
+          ui.cpp    37    {
+          ui.cpp    38                    const char      *p1,*p2,*p3;
+          ui.cpp    39                    int             paifu   = p.paifu;
+    00000002 6742                   MOV.L       @R4,R7
+          ui.cpp    40                    int             huase   = p.huase;
+    00000004 5541                   MOV.L       @(4,R4),R5
+          ui.cpp    41                    int             dianshu = p.dianshu;
+          ui.cpp    42                    int             leixing = p.leixing;
+          ui.cpp    43    
+          ui.cpp    44                    if(paifu==0|| paifu==1);// do nothing
+    00000006 2778                   TST         R7,R7
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000008 5643                   MOV.L       @(12,R4),R6
+    0000000A 8D0A                   BT/S        L509
+    0000000C 5444                   MOV.L       @(16,R4),R4
+    0000000E 6073                   MOV         R7,R0
+    00000010 8801                   CMP/EQ      #1,R0
+    00000012 8906                   BT          L509
+          ui.cpp    45                    else
+          ui.cpp    46                    {
+          ui.cpp    47                            strcpy(card_info,"牌副错误");
+    00000014 D12F                   MOV.L       L580+20,R1 ; L316
+    00000016 D030                   MOV.L       L580+24,R0 ; _card_info
+    00000018 D230                   MOV.L       L580+28,R2 ; __slow_strcpy
+    0000001A 420B                   JSR         @R2
+    0000001C 0009                   NOP
+    0000001E A0A2                   BRA         L419
+    00000020 0009                   NOP
+    00000022              L509:                             
+          ui.cpp    48                            return card_info;
+          ui.cpp    49                    }
+          ui.cpp    50                    if (huase>3 || huase<-1)
+    00000022 E303                   MOV         #3,R3
+    00000024 3537                   CMP/GT      R3,R5
+    00000026 8902                   BT          L512
+    00000028 E1FF                   MOV         #-1,R1
+    0000002A 3513                   CMP/GE      R1,R5
+    0000002C 8906                   BT          L511
+    0000002E              L512:                             
+          ui.cpp    51                    {
+          ui.cpp    52                            strcpy(card_info,"花色错误");
+    0000002E D12C                   MOV.L       L580+32,R1 ; L318
+    00000030 D029                   MOV.L       L580+24,R0 ; _card_info
+    00000032 D32A                   MOV.L       L580+28,R3 ; __slow_strcpy
+    00000034 430B                   JSR         @R3
+    00000036 0009                   NOP
+    00000038 A095                   BRA         L419
+    0000003A 0009                   NOP
+    0000003C              L511:                             
+          ui.cpp    53                            return card_info;
+          ui.cpp    54                    }
+          ui.cpp    55                    p1 = (HUASE_STRING[huase+1]);
+    0000003C D029                   MOV.L       L580+36,R0 ; H'00000004+_HUASE_STRING
+          ui.cpp    56                    if(dianshu<-1 || dianshu>12)
+    0000003E E3FF                   MOV         #-1,R3
+    00000040 6753                   MOV         R5,R7
+    00000042 4708                   SHLL2       R7
+    00000044 3633                   CMP/GE      R3,R6
+    00000046 8F03                   BF/S        L514
+    00000048 057E                   MOV.L       @(R0,R7),R5
+    0000004A E10C                   MOV         #12,R1
+    0000004C 3617                   CMP/GT      R1,R6
+    0000004E 8B06                   BF          L513
+    00000050              L514:                             
+          ui.cpp    57                    {
+          ui.cpp    58                            strcpy(card_info,"点数错误");
+    00000050 D125                   MOV.L       L580+40,R1 ; L320
+    00000052 D021                   MOV.L       L580+24,R0 ; _card_info
+    00000054 D321                   MOV.L       L580+28,R3 ; __slow_strcpy
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000056 430B                   JSR         @R3
+    00000058 0009                   NOP
+    0000005A A084                   BRA         L419
+    0000005C 0009                   NOP
+    0000005E              L513:                             
+          ui.cpp    59                            return card_info;
+          ui.cpp    60                    }
+          ui.cpp    61                    p2 = DIANSHU_STRING[huase+1];
+          ui.cpp    62            
+          ui.cpp    63                    if              (IN_RANGE(leixing,101,103))             p3 = (LEIXING1_STRING[leixing-101]
+                         +);
+    0000005E E365                   MOV         #101,R3
+    00000060 D022                   MOV.L       L580+44,R0 ; H'00000004+_DIANSHU_STRING
+    00000062 3433                   CMP/GE      R3,R4
+    00000064 8F08                   BF/S        L515
+    00000066 067E                   MOV.L       @(R0,R7),R6
+    00000068 E167                   MOV         #103,R1
+    0000006A 3417                   CMP/GT      R1,R4
+    0000006C 8904                   BT          L515
+    0000006E 6743                   MOV         R4,R7
+    00000070 D01F                   MOV.L       L580+48,R0 ; __$LEIXING1_STRING
+    00000072 779B                   ADD         #-101,R7
+    00000074 A065                   BRA         L578
+    00000076 4708                   SHLL2       R7
+    00000078              L515:                             
+          ui.cpp    64                    else if (IN_RANGE(leixing,201,210))             p3 = (LEIXING2_STRING[leixing-201]);
+    00000078 9222                   MOV.W       L580,R2    ; H'00C9
+    0000007A 3423                   CMP/GE      R2,R4
+    0000007C 8B08                   BF          L517
+    0000007E 9120                   MOV.W       L580+2,R1  ; H'00D2
+    00000080 3417                   CMP/GT      R1,R4
+    00000082 8905                   BT          L517
+    00000084 971E                   MOV.W       L580+4,R7  ; H'FF37
+    00000086 374C                   ADD         R4,R7
+    00000088 D01A                   MOV.L       L580+52,R0 ; __$LEIXING2_STRING
+    0000008A 4708                   SHLL2       R7
+    0000008C A059                   BRA         L578
+    0000008E 0009                   NOP
+    00000090              L517:                             
+          ui.cpp    65                    else if (IN_RANGE(leixing,251,252))             p3 = (LEIXING3_STRING[leixing-251]);
+    00000090 9219                   MOV.W       L580+6,R2  ; H'00FB
+    00000092 3423                   CMP/GE      R2,R4
+    00000094 8B08                   BF          L519
+    00000096 9117                   MOV.W       L580+8,R1  ; H'00FC
+    00000098 3417                   CMP/GT      R1,R4
+    0000009A 8905                   BT          L519
+    0000009C 9715                   MOV.W       L580+10,R7 ; H'FF05
+    0000009E 374C                   ADD         R4,R7
+    000000A0 D015                   MOV.L       L580+56,R0 ; __$LEIXING3_STRING
+    000000A2 4708                   SHLL2       R7
+    000000A4 A04D                   BRA         L578
+    000000A6 0009                   NOP
+    000000A8              L519:                             
+          ui.cpp    66                    else if (IN_RANGE(leixing,301,308))             p3 = (LEIXING4_STRING[leixing-301]);
+    000000A8 9210                   MOV.W       L580+12,R2 ; H'012D
+    000000AA 3423                   CMP/GE      R2,R4
+    000000AC 8B28                   BF          L521
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000AE 910E                   MOV.W       L580+14,R1 ; H'0134
+    000000B0 3417                   CMP/GT      R1,R4
+    000000B2 8925                   BT          L521
+    000000B4 970C                   MOV.W       L580+16,R7 ; H'FED3
+    000000B6 374C                   ADD         R4,R7
+    000000B8 D010                   MOV.L       L580+60,R0 ; __$LEIXING4_STRING
+    000000BA 4708                   SHLL2       R7
+    000000BC A041                   BRA         L578
+    000000BE 0009                   NOP
+    000000C0              L580:                             
+    000000C0 00C9                   .DATA.W     H'00C9
+    000000C2 00D2                   .DATA.W     H'00D2
+    000000C4 FF37                   .DATA.W     H'FF37
+    000000C6 00FB                   .DATA.W     H'00FB
+    000000C8 00FC                   .DATA.W     H'00FC
+    000000CA FF05                   .DATA.W     H'FF05
+    000000CC 012D                   .DATA.W     H'012D
+    000000CE 0134                   .DATA.W     H'0134
+    000000D0 FED3                   .DATA.W     H'FED3
+    000000D2 0000                   .DATA.W     0
+    000000D4 <00000000>             .DATA.L     L316
+    000000D8 <00000000>             .DATA.L     _card_info
+    000000DC <00000000>             .DATA.L     __slow_strcpy
+    000000E0 <00000000>             .DATA.L     L318
+    000000E4 <00000004>             .DATA.L     H'00000004+_HUASE_STRING
+    000000E8 <00000000>             .DATA.L     L320
+    000000EC <00000004>             .DATA.L     H'00000004+_DIANSHU_STRING
+    000000F0 <00000000>             .DATA.L     __$LEIXING1_STRING
+    000000F4 <00000000>             .DATA.L     __$LEIXING2_STRING
+    000000F8 <00000000>             .DATA.L     __$LEIXING3_STRING
+    000000FC <00000000>             .DATA.L     __$LEIXING4_STRING
+    00000100              L521:                             
+          ui.cpp    67                    else if (IN_RANGE(leixing,331,331))             p3 = (LEIXING5_STRING[leixing-331]);
+    00000100 9772                   MOV.W       L581,R7    ; H'014B
+    00000102 3473                   CMP/GE      R7,R4
+    00000104 8B07                   BF          L523
+    00000106 3477                   CMP/GT      R7,R4
+    00000108 8905                   BT          L523
+    0000010A 976E                   MOV.W       L581+2,R7  ; H'FEB5
+    0000010C D03A                   MOV.L       L581+16,R0 ; __$LEIXING5_STRING
+    0000010E 374C                   ADD         R4,R7
+    00000110 4708                   SHLL2       R7
+    00000112 A016                   BRA         L578
+    00000114 0009                   NOP
+    00000116              L523:                             
+          ui.cpp    68                    else if (IN_RANGE(leixing,361,363))             p3 = (LEIXING6_STRING[leixing-361]);
+    00000116 9269                   MOV.W       L581+4,R2  ; H'0169
+    00000118 3423                   CMP/GE      R2,R4
+    0000011A 8B08                   BF          L525
+    0000011C 9167                   MOV.W       L581+6,R1  ; H'016B
+    0000011E 3417                   CMP/GT      R1,R4
+    00000120 8905                   BT          L525
+    00000122 9765                   MOV.W       L581+8,R7  ; H'FE97
+    00000124 D035                   MOV.L       L581+20,R0 ; __$LEIXING6_STRING
+    00000126 374C                   ADD         R4,R7
+    00000128 4708                   SHLL2       R7
+    0000012A A00A                   BRA         L578
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000012C 0009                   NOP
+    0000012E              L525:                             
+          ui.cpp    69                    else if (IN_RANGE(leixing,381,383))             p3 = (LEIXING7_STRING[leixing-381]);
+    0000012E 9260                   MOV.W       L581+10,R2 ; H'017D
+    00000130 3423                   CMP/GE      R2,R4
+    00000132 8B08                   BF          L527
+    00000134 915E                   MOV.W       L581+12,R1 ; H'017F
+    00000136 3417                   CMP/GT      R1,R4
+    00000138 8905                   BT          L527
+    0000013A 975C                   MOV.W       L581+14,R7 ; H'FE83
+    0000013C D030                   MOV.L       L581+24,R0 ; __$LEIXING7_STRING
+    0000013E 374C                   ADD         R4,R7
+    00000140 4708                   SHLL2       R7
+    00000142              L578:                             
+    00000142 A007                   BRA         L516
+    00000144 077E                   MOV.L       @(R0,R7),R7
+    00000146              L527:                             
+          ui.cpp    70                    else
+          ui.cpp    71                    {
+          ui.cpp    72                            strcpy(card_info,"类型错误");
+    00000146 D12F                   MOV.L       L581+28,R1 ; L335
+    00000148 D02F                   MOV.L       L581+32,R0 ; _card_info
+    0000014A D230                   MOV.L       L581+36,R2 ; __slow_strcpy
+    0000014C 420B                   JSR         @R2
+    0000014E 0009                   NOP
+    00000150 A009                   BRA         L419
+    00000152 0009                   NOP
+    00000154              L516:                             
+          ui.cpp    73                            return card_info;
+          ui.cpp    74                    }
+          ui.cpp    75                    sprintf(card_info,"%s%s-%s",p1,p2,p3);
+    00000154 2F76                   MOV.L       R7,@-R15
+    00000156 2F66                   MOV.L       R6,@-R15
+    00000158 2F56                   MOV.L       R5,@-R15
+    0000015A D22D                   MOV.L       L581+40,R2 ; L336
+    0000015C D42A                   MOV.L       L581+32,R4 ; _card_info
+    0000015E D32D                   MOV.L       L581+44,R3 ; _sprintf
+    00000160 430B                   JSR         @R3
+    00000162 2F26                   MOV.L       R2,@-R15
+    00000164 7F10                   ADD         #16,R15
+    00000166              L419:
+          ui.cpp    76                    return card_info;
+    00000166 D028                   MOV.L       L581+32,R0 ; _card_info
+          ui.cpp    77    }
+    00000168 4F26                   LDS.L       @R15+,PR
+    0000016A 000B                   RTS
+    0000016C 0009                   NOP
+          ui.cpp    78    
+          ui.cpp    79    int select_shoupai (int type,pai * shoupai,int shoupaishu)
+    0000016E              _select_shoupai__FiP3paiT1:      ; function: select_shoupai(int, pai *, int)
+                                                           ; frame size=72
+          ui.cpp    80    {
+          ui.cpp    81            uint                    key;
+          ui.cpp    82            bool                    redraw = true;
+    0000016E E301                   MOV         #1,R3
+    00000170 2FE6                   MOV.L       R14,@-R15
+    00000172 2FD6                   MOV.L       R13,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000174 2FC6                   MOV.L       R12,@-R15
+          ui.cpp    83            int                             i,top,bottom,index;
+          ui.cpp    84            const int               h_max = 4-1;
+          ui.cpp    85            const int               size = shoupaishu;
+          ui.cpp    86    
+          ui.cpp    87            index=0,top=0,bottom=h_max;
+    00000176 ED03                   MOV         #3,R13
+    00000178 2FB6                   MOV.L       R11,@-R15
+    0000017A 2FA6                   MOV.L       R10,@-R15
+    0000017C 2F96                   MOV.L       R9,@-R15
+    0000017E EA00                   MOV         #0,R10
+    00000180 2F86                   MOV.L       R8,@-R15
+    00000182 6EA3                   MOV         R10,R14
+    00000184 4F22                   STS.L       PR,@-R15
+    00000186 6BA3                   MOV         R10,R11
+    00000188 7FE4                   ADD         #-28,R15
+    0000018A 1F44                   MOV.L       R4,@(16,R15)
+    0000018C 1F55                   MOV.L       R5,@(20,R15)
+    0000018E 1F61                   MOV.L       R6,@(4,R15)
+    00000190 1F36                   MOV.L       R3,@(24,R15)
+    00000192 52F1                   MOV.L       @(4,R15),R2
+    00000194 1F22                   MOV.L       R2,@(8,R15)
+    00000196 6823                   MOV         R2,R8
+    00000198 78FF                   ADD         #-1,R8
+          ui.cpp    88    
+          ui.cpp    89            while(true)
+    0000019A              L530:                             
+          ui.cpp    90            {
+          ui.cpp    91                    if(redraw)
+    0000019A 52F6                   MOV.L       @(24,R15),R2
+    0000019C 2228                   TST         R2,R2
+    0000019E 8971                   BT          L531
+          ui.cpp    92                    {
+          ui.cpp    93                            int x=0,y=12;
+    000001A0 E40C                   MOV         #12,R4
+          ui.cpp    94                            
+          ui.cpp    95                            if (bottom-top>h_max)bottom = top + h_max;
+    000001A2 63D3                   MOV         R13,R3
+    000001A4 33B8                   SUB         R11,R3
+    000001A6 E203                   MOV         #3,R2
+    000001A8 3327                   CMP/GT      R2,R3
+    000001AA 8F02                   BF/S        L532
+    000001AC 1F43                   MOV.L       R4,@(12,R15)
+    000001AE 6DB3                   MOV         R11,R13
+    000001B0 7D03                   ADD         #3,R13
+    000001B2              L532:                             
+          ui.cpp    96                            if(top>index)
+    000001B2 3BE7                   CMP/GT      R14,R11
+    000001B4 8B02                   BF          L533
+          ui.cpp    97                            {
+          ui.cpp    98                                    top = index;
+    000001B6 6BE3                   MOV         R14,R11
+          ui.cpp    99                                    bottom = index + h_max;
+    000001B8 6DE3                   MOV         R14,R13
+    000001BA 7D03                   ADD         #3,R13
+    000001BC              L533:                             
+          ui.cpp   100                            }
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          ui.cpp   101                            if (index>bottom)
+    000001BC 3ED7                   CMP/GT      R13,R14
+    000001BE 8B02                   BF          L534
+          ui.cpp   102                            {
+          ui.cpp   103                                    bottom = index;
+    000001C0 6DE3                   MOV         R14,R13
+          ui.cpp   104                                    top = bottom - h_max;
+    000001C2 6BE3                   MOV         R14,R11
+    000001C4 7BFD                   ADD         #-3,R11
+    000001C6              L534:                             
+          ui.cpp   105                            }
+          ui.cpp   106                            if(bottom>size - 1)bottom = size - 1;
+    000001C6 3D87                   CMP/GT      R8,R13
+    000001C8 8B00                   BF          L535
+    000001CA 6D83                   MOV         R8,R13
+    000001CC              L535:                             
+          ui.cpp   107                            
+          ui.cpp   108                            redraw = false;
+          ui.cpp   109                            Bdisp_AllClr_VRAM();
+    000001CC DC12                   MOV.L       L581+48,R12; _Bdisp_AllClr_VRAM
+    000001CE 4C0B                   JSR         @R12
+    000001D0 1FA6                   MOV.L       R10,@(24,R15)
+          ui.cpp   110                            sprintf(card_info,"%s玩家有%d张牌",type ? "【查看】":"【选择】",size);
+    000001D2 D912                   MOV.L       L581+52,R9 ; L357
+    000001D4 DC0C                   MOV.L       L581+32,R12; _card_info
+    000001D6 53F2                   MOV.L       @(8,R15),R3
+    000001D8 2F36                   MOV.L       R3,@-R15
+    000001DA 52F5                   MOV.L       @(20,R15),R2
+    000001DC 2228                   TST         R2,R2
+    000001DE 8921                   BT          L536
+    000001E0 D20F                   MOV.L       L581+56,R2 ; L358
+    000001E2 2F26                   MOV.L       R2,@-R15
+    000001E4 A020                   BRA         L537
+    000001E6 0009                   NOP
+    000001E8              L581:                             
+    000001E8 014B                   .DATA.W     H'014B
+    000001EA FEB5                   .DATA.W     H'FEB5
+    000001EC 0169                   .DATA.W     H'0169
+    000001EE 016B                   .DATA.W     H'016B
+    000001F0 FE97                   .DATA.W     H'FE97
+    000001F2 017D                   .DATA.W     H'017D
+    000001F4 017F                   .DATA.W     H'017F
+    000001F6 FE83                   .DATA.W     H'FE83
+    000001F8 <00000000>             .DATA.L     __$LEIXING5_STRING
+    000001FC <00000000>             .DATA.L     __$LEIXING6_STRING
+    00000200 <00000000>             .DATA.L     __$LEIXING7_STRING
+    00000204 <00000000>             .DATA.L     L335
+    00000208 <00000000>             .DATA.L     _card_info
+    0000020C <00000000>             .DATA.L     __slow_strcpy
+    00000210 <00000000>             .DATA.L     L336
+    00000214 <00000000>             .DATA.L     _sprintf
+    00000218 <00000000>             .DATA.L     _Bdisp_AllClr_VRAM
+    0000021C <00000000>             .DATA.L     L357
+    00000220 <00000000>             .DATA.L     L358
+    00000224              L536:                             
+    00000224 D33B                   MOV.L       L582+12,R3 ; L359
+    00000226 2F36                   MOV.L       R3,@-R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000228              L537:                             
+    00000228 2F96                   MOV.L       R9,@-R15
+    0000022A D33B                   MOV.L       L582+16,R3 ; _sprintf
+    0000022C 430B                   JSR         @R3
+    0000022E 64C3                   MOV         R12,R4
+          ui.cpp   111                            ChsPrint(0,0,0,(PCUCHAR)card_info);
+    00000230 D93A                   MOV.L       L582+20,R9 ; _ChsPrint__FiN21PCUc
+    00000232 67C3                   MOV         R12,R7
+    00000234 7F0C                   ADD         #12,R15
+    00000236 E600                   MOV         #0,R6
+    00000238 6563                   MOV         R6,R5
+    0000023A 490B                   JSR         @R9
+    0000023C 6463                   MOV         R6,R4
+          ui.cpp   112                            if(shoupaishu>0)
+    0000023E 52F1                   MOV.L       @(4,R15),R2
+    00000240 4215                   CMP/PL      R2
+    00000242 8B19                   BF          L538
+          ui.cpp   113                            {
+          ui.cpp   114                                    for (i=top;i<=bottom;++i,y+=12)
+    00000244 6CB3                   MOV         R11,R12
+    00000246 3CD7                   CMP/GT      R13,R12
+    00000248 891C                   BT          L531
+    0000024A              L540:                             
+          ui.cpp   115                                    {
+          ui.cpp   116                                            //printf("%d %d %d",i,top,bottom);GetKey(&key);
+          ui.cpp   117                                            ChsPrint(x,y,index==i,(PCUCHAR)GetCardInfo(shoupai[i]));
+    0000024A 64C3                   MOV         R12,R4
+    0000024C 52F5                   MOV.L       @(20,R15),R2
+    0000024E 63C3                   MOV         R12,R3
+    00000250 4400                   SHLL        R4
+    00000252 343C                   ADD         R3,R4
+    00000254 4408                   SHLL2       R4
+    00000256 4400                   SHLL        R4
+    00000258 BED2                   BSR         _GetCardInfo__FR3pai
+    0000025A 342C                   ADD         R2,R4
+    0000025C 55F3                   MOV.L       @(12,R15),R5
+    0000025E 6703                   MOV         R0,R7
+    00000260 3EC0                   CMP/EQ      R12,R14
+    00000262 0629                   MOVT        R6
+    00000264 490B                   JSR         @R9
+    00000266 E400                   MOV         #0,R4
+    00000268 53F3                   MOV.L       @(12,R15),R3
+    0000026A 7C01                   ADD         #1,R12
+    0000026C 730C                   ADD         #12,R3
+    0000026E 3CD7                   CMP/GT      R13,R12
+    00000270 8FEB                   BF/S        L540
+    00000272 1F33                   MOV.L       R3,@(12,R15)
+    00000274 A006                   BRA         L531
+    00000276 0009                   NOP
+    00000278              L538:                             
+          ui.cpp   118                                    }
+          ui.cpp   119                            }
+          ui.cpp   120                            else
+          ui.cpp   121                            {
+          ui.cpp   122                                    ChsPrint(x,y,0,"空城");
+    00000278 DC29                   MOV.L       L582+24,R12; L363
+    0000027A E600                   MOV         #0,R6
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000027C 67C3                   MOV         R12,R7
+    0000027E E50C                   MOV         #12,R5
+    00000280 490B                   JSR         @R9
+    00000282 6463                   MOV         R6,R4
+    00000284              L531:                             
+          ui.cpp   123                            }
+          ui.cpp   124                    }
+          ui.cpp   125                    GetKey(&key);
+    00000284 DC27                   MOV.L       L582+28,R12; _GetKey
+    00000286 4C0B                   JSR         @R12
+    00000288 64F3                   MOV         R15,R4
+          ui.cpp   126                    
+          ui.cpp   127                    if (key==KEY_CTRL_UP) 
+    0000028A 943D                   MOV.W       L582,R4    ; H'7542
+    0000028C 62F2                   MOV.L       @R15,R2
+    0000028E 3240                   CMP/EQ      R4,R2
+    00000290 8B04                   BF          L542
+          ui.cpp   128                            {if(--index<0) index = size - 1;redraw = true;}
+    00000292 7EFF                   ADD         #-1,R14
+    00000294 4E11                   CMP/PZ      R14
+    00000296 8909                   BT          L420
+    00000298 A008                   BRA         L420
+    0000029A 6E83                   MOV         R8,R14
+    0000029C              L542:                             
+          ui.cpp   129                    else if (key==KEY_CTRL_DOWN)
+    0000029C 9435                   MOV.W       L582+2,R4  ; H'7547
+    0000029E 63F2                   MOV.L       @R15,R3
+    000002A0 3340                   CMP/EQ      R4,R3
+    000002A2 8B06                   BF          L545
+          ui.cpp   130                            {if(++index>size - 1) index = 0;redraw = true;}
+    000002A4 7E01                   ADD         #1,R14
+    000002A6 3E87                   CMP/GT      R8,R14
+    000002A8 8B00                   BF          L420
+    000002AA 6EA3                   MOV         R10,R14
+    000002AC              L420:
+    000002AC E201                   MOV         #1,R2
+    000002AE AF74                   BRA         L530
+    000002B0 1F26                   MOV.L       R2,@(24,R15)
+    000002B2              L545:                             
+          ui.cpp   131                    else if (key==KEY_CTRL_EXIT)    return -1;
+    000002B2 942B                   MOV.W       L582+4,R4  ; H'7532
+    000002B4 62F2                   MOV.L       @R15,R2
+    000002B6 3240                   CMP/EQ      R4,R2
+    000002B8 8B01                   BF          L548
+    000002BA A007                   BRA         L549
+    000002BC E0FF                   MOV         #-1,R0
+    000002BE              L548:                             
+          ui.cpp   132                    else if (key==KEY_CTRL_EXE)     return index;
+    000002BE 9426                   MOV.W       L582+6,R4  ; H'7534
+    000002C0 63F2                   MOV.L       @R15,R3
+    000002C2 3340                   CMP/EQ      R4,R3
+    000002C4 8901                   BT          L583
+    000002C6 AF68                   BRA         L530
+    000002C8 0009                   NOP
+    000002CA              L583:                             
+    000002CA 60E3                   MOV         R14,R0
+    000002CC              L549:                             
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          ui.cpp   133            }
+          ui.cpp   134    }
+    000002CC 7F1C                   ADD         #28,R15
+    000002CE 4F26                   LDS.L       @R15+,PR
+    000002D0 68F6                   MOV.L       @R15+,R8
+    000002D2 69F6                   MOV.L       @R15+,R9
+    000002D4 6AF6                   MOV.L       @R15+,R10
+    000002D6 6BF6                   MOV.L       @R15+,R11
+    000002D8 6CF6                   MOV.L       @R15+,R12
+    000002DA 6DF6                   MOV.L       @R15+,R13
+    000002DC 000B                   RTS
+    000002DE 6EF6                   MOV.L       @R15+,R14
+          ui.cpp   135    
+          ui.cpp   136    void show_judgement (wujiang & w)
+    000002E0              _show_judgement__FR7wujiang:     ; function: show_judgement(wujiang &)
+                                                           ; frame size=24
+    000002E0 2FE6                   MOV.L       R14,@-R15
+          ui.cpp   137    {
+          ui.cpp   138            const char *    name;
+          ui.cpp   139            int                     x=0,y=0,sel=0;
+          ui.cpp   140            uint                    key = 0;
+    000002E2 E300                   MOV         #0,R3
+          ui.cpp   141            pai                             *pandingpai = w.pandingpai;
+          ui.cpp   142            
+          ui.cpp   143            Bdisp_AllClr_VRAM();
+    000002E4 D210                   MOV.L       L582+32,R2 ; _Bdisp_AllClr_VRAM
+    000002E6 2FD6                   MOV.L       R13,@-R15
+    000002E8 2FC6                   MOV.L       R12,@-R15
+    000002EA 4F22                   STS.L       PR,@-R15
+    000002EC 7FF8                   ADD         #-8,R15
+    000002EE 1F41                   MOV.L       R4,@(4,R15)
+    000002F0 2F32                   MOV.L       R3,@R15
+    000002F2 5DF1                   MOV.L       @(4,R15),R13
+    000002F4 930C                   MOV.W       L582+8,R3  ; H'0274
+    000002F6 420B                   JSR         @R2
+    000002F8 3D3C                   ADD         R3,R13
+          ui.cpp   144    
+          ui.cpp   145            if(w.juese)
+    000002FA 51F1                   MOV.L       @(4,R15),R1
+    000002FC 531A                   MOV.L       @(40,R1),R3
+    000002FE 2338                   TST         R3,R3
+    00000300 8916                   BT          L552
+          ui.cpp   146                    name = "玩家";
+    00000302 D70A                   MOV.L       L582+36,R7 ; L382
+    00000304 A015                   BRA         L553
+    00000306 0009                   NOP
+    00000308              L582:                             
+    00000308 7542                   .DATA.W     H'7542
+    0000030A 7547                   .DATA.W     H'7547
+    0000030C 7532                   .DATA.W     H'7532
+    0000030E 7534                   .DATA.W     H'7534
+    00000310 0274                   .DATA.W     H'0274
+    00000312 0000                   .DATA.W     0
+    00000314 <00000000>             .DATA.L     L359
+    00000318 <00000000>             .DATA.L     _sprintf
+    0000031C <00000000>             .DATA.L     _ChsPrint__FiN21PCUc
+    00000320 <00000000>             .DATA.L     L363
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000324 <00000000>             .DATA.L     _GetKey
+    00000328 <00000000>             .DATA.L     _Bdisp_AllClr_VRAM
+    0000032C <00000000>             .DATA.L     L382
+    00000330              L552:                             
+          ui.cpp   147            else
+          ui.cpp   148                    name = "电脑";
+    00000330 D73E                   MOV.L       L584+6,R7  ; L384
+    00000332              L553:                             
+          ui.cpp   149                    
+          ui.cpp   150            ChsPrint(x,y,sel,(PCUCHAR)name);ChsPrint(x+24,y,sel,(PCUCHAR)"当前判定区：");y+=12;
+    00000332 E600                   MOV         #0,R6
+    00000334 DE3E                   MOV.L       L584+10,R14; _ChsPrint__FiN21PCUc
+    00000336 6563                   MOV         R6,R5
+    00000338 4E0B                   JSR         @R14
+    0000033A 6463                   MOV         R6,R4
+    0000033C D73D                   MOV.L       L584+14,R7 ; L385
+    0000033E E600                   MOV         #0,R6
+    00000340 6563                   MOV         R6,R5
+    00000342 4E0B                   JSR         @R14
+    00000344 E418                   MOV         #24,R4
+          ui.cpp   151            
+          ui.cpp   152            if((pandingpai[0]).leixing==-1)ChsPrint(x,y,sel,(PCUCHAR)"空");
+    00000346 50D4                   MOV.L       @(16,R13),R0
+    00000348 88FF                   CMP/EQ      #-1,R0
+    0000034A 8B06                   BF          L554
+    0000034C D73A                   MOV.L       L584+18,R7 ; L387
+    0000034E E600                   MOV         #0,R6
+    00000350 E50C                   MOV         #12,R5
+    00000352 4E0B                   JSR         @R14
+    00000354 6463                   MOV         R6,R4
+    00000356 A01F                   BRA         L555
+    00000358 0009                   NOP
+    0000035A              L554:                             
+          ui.cpp   153            else
+          ui.cpp   154            {
+          ui.cpp   155                    x=0;
+          ui.cpp   156                    ChsPrint(x,y,sel,(PCUCHAR)GetCardInfo(pandingpai[0]));y+=12;
+    0000035A BE51                   BSR         _GetCardInfo__FR3pai
+    0000035C 64D3                   MOV         R13,R4
+    0000035E 6703                   MOV         R0,R7
+    00000360 E600                   MOV         #0,R6
+    00000362 E50C                   MOV         #12,R5
+    00000364 4E0B                   JSR         @R14
+    00000366 6463                   MOV         R6,R4
+    00000368 6CD3                   MOV         R13,R12
+    0000036A 7C18                   ADD         #24,R12
+    0000036C 50C4                   MOV.L       @(16,R12),R0
+    0000036E 88FF                   CMP/EQ      #-1,R0
+    00000370 8912                   BT          L555
+          ui.cpp   157                    if((pandingpai[1]).leixing==-1);
+          ui.cpp   158                    else
+          ui.cpp   159                    {
+          ui.cpp   160                            ChsPrint(x,y,sel,(PCUCHAR)GetCardInfo(pandingpai[1]));y+=12;
+    00000372 BE45                   BSR         _GetCardInfo__FR3pai
+    00000374 64C3                   MOV         R12,R4
+    00000376 6703                   MOV         R0,R7
+    00000378 E600                   MOV         #0,R6
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000037A E518                   MOV         #24,R5
+    0000037C 4E0B                   JSR         @R14
+    0000037E 6463                   MOV         R6,R4
+    00000380 6CD3                   MOV         R13,R12
+    00000382 7C30                   ADD         #48,R12
+    00000384 50C4                   MOV.L       @(16,R12),R0
+    00000386 88FF                   CMP/EQ      #-1,R0
+    00000388 8906                   BT          L555
+          ui.cpp   161                            if((pandingpai[2]).leixing==-1);
+          ui.cpp   162                            else
+          ui.cpp   163                            {
+          ui.cpp   164                                    ChsPrint(x,y,sel,(PCUCHAR)GetCardInfo(pandingpai[2]));
+    0000038A BE39                   BSR         _GetCardInfo__FR3pai
+    0000038C 64C3                   MOV         R12,R4
+    0000038E 6703                   MOV         R0,R7
+    00000390 E600                   MOV         #0,R6
+    00000392 E524                   MOV         #36,R5
+    00000394 4E0B                   JSR         @R14
+    00000396 6463                   MOV         R6,R4
+    00000398              L555:                             
+    00000398 DD28                   MOV.L       L584+22,R13; _GetKey
+    0000039A 9E44                   MOV.W       L584,R14   ; H'7534
+          ui.cpp   165                            }
+          ui.cpp   166                    }
+          ui.cpp   167            }
+          ui.cpp   168            while(key!=KEY_CTRL_EXE && key!=KEY_CTRL_EXIT)
+    0000039C A002                   BRA         L560
+    0000039E 0009                   NOP
+    000003A0              L561:                             
+          ui.cpp   169            {
+          ui.cpp   170                    GetKey(&key);
+    000003A0 4D0B                   JSR         @R13
+    000003A2 64F3                   MOV         R15,R4
+    000003A4              L560:                             
+    000003A4 62F2                   MOV.L       @R15,R2
+    000003A6 32E0                   CMP/EQ      R14,R2
+    000003A8 8903                   BT          L563
+    000003AA 913D                   MOV.W       L584+2,R1  ; H'7532
+    000003AC 63F2                   MOV.L       @R15,R3
+    000003AE 3310                   CMP/EQ      R1,R3
+    000003B0 8BF6                   BF          L561
+    000003B2              L563:                             
+          ui.cpp   171            }
+          ui.cpp   172    }
+    000003B2 7F08                   ADD         #8,R15
+    000003B4 4F26                   LDS.L       @R15+,PR
+    000003B6 6CF6                   MOV.L       @R15+,R12
+    000003B8 6DF6                   MOV.L       @R15+,R13
+    000003BA 000B                   RTS
+    000003BC 6EF6                   MOV.L       @R15+,R14
+          ui.cpp   173    
+          ui.cpp   174    static const char * EQUIPMENT_TYPE[] = {"武器　：","防具　：","进攻马：","防御马："};
+          ui.cpp   175    
+          ui.cpp   176    void show_equipment (wujiang & w)
+    000003BE              _show_equipment__FR7wujiang:     ; function: show_equipment(wujiang &)
+                                                           ; frame size=40
+          ui.cpp   177    {
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   13
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          ui.cpp   178            const char *    name;
+          ui.cpp   179            int                     x=0,y=0,sel=0,i=0;
+          ui.cpp   180            uint                    key = 0;
+    000003BE E300                   MOV         #0,R3
+          ui.cpp   181            pai                             *zhuangbei = w.zhuangbei;
+          ui.cpp   182    
+          ui.cpp   183            Bdisp_AllClr_VRAM();    
+    000003C0 D21F                   MOV.L       L584+26,R2 ; _Bdisp_AllClr_VRAM
+    000003C2 2FE6                   MOV.L       R14,@-R15
+    000003C4 2FD6                   MOV.L       R13,@-R15
+    000003C6 2FC6                   MOV.L       R12,@-R15
+    000003C8 2FB6                   MOV.L       R11,@-R15
+    000003CA 2FA6                   MOV.L       R10,@-R15
+    000003CC 2F96                   MOV.L       R9,@-R15
+    000003CE 2F86                   MOV.L       R8,@-R15
+    000003D0 4F22                   STS.L       PR,@-R15
+    000003D2 7FF8                   ADD         #-8,R15
+    000003D4 1F41                   MOV.L       R4,@(4,R15)
+    000003D6 2F32                   MOV.L       R3,@R15
+    000003D8 5BF1                   MOV.L       @(4,R15),R11
+    000003DA 9326                   MOV.W       L584+4,R3  ; H'0210
+    000003DC 420B                   JSR         @R2
+    000003DE 3B3C                   ADD         R3,R11
+          ui.cpp   184    
+          ui.cpp   185            if(w.juese)
+    000003E0 51F1                   MOV.L       @(4,R15),R1
+    000003E2 531A                   MOV.L       @(40,R1),R3
+    000003E4 2338                   TST         R3,R3
+    000003E6 8902                   BT          L564
+          ui.cpp   186                    name = "玩家";
+    000003E8 D716                   MOV.L       L584+30,R7 ; L382
+    000003EA A001                   BRA         L565
+    000003EC 0009                   NOP
+    000003EE              L564:                             
+          ui.cpp   187            else
+          ui.cpp   188                    name = "电脑";
+    000003EE D70F                   MOV.L       L584+6,R7  ; L384
+    000003F0              L565:                             
+          ui.cpp   189                    
+          ui.cpp   190            ChsPrint(x,y,sel,(PCUCHAR)name);ChsPrint(x+24,y,sel,(PCUCHAR)"当前装备");y+=12;
+    000003F0 DE0F                   MOV.L       L584+10,R14; _ChsPrint__FiN21PCUc
+    000003F2 E600                   MOV         #0,R6
+    000003F4 6563                   MOV         R6,R5
+    000003F6 4E0B                   JSR         @R14
+    000003F8 6463                   MOV         R6,R4
+    000003FA E600                   MOV         #0,R6
+    000003FC D712                   MOV.L       L584+34,R7 ; L405
+    000003FE 6563                   MOV         R6,R5
+    00000400 4E0B                   JSR         @R14
+    00000402 E418                   MOV         #24,R4
+          ui.cpp   191            
+          ui.cpp   192            for(i=0;i<4;++i,y+=12)
+    00000404 D80C                   MOV.L       L584+18,R8 ; L387
+    00000406 EA04                   MOV         #4,R10
+    00000408 D910                   MOV.L       L584+38,R9 ; __$EQUIPMENT_TYPE
+    0000040A EC00                   MOV         #0,R12
+    0000040C ED0C                   MOV         #12,R13
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   14
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000040E              L566:                             
+          ui.cpp   193            {
+          ui.cpp   194                    x=0;
+          ui.cpp   195                    ChsPrint(x,y,sel,(PCUCHAR)EQUIPMENT_TYPE[i]);x+=48;
+    0000040E 60C3                   MOV         R12,R0
+    00000410 4008                   SHLL2       R0
+    00000412 E600                   MOV         #0,R6
+    00000414 079E                   MOV.L       @(R0,R9),R7
+    00000416 65D3                   MOV         R13,R5
+    00000418 4E0B                   JSR         @R14
+    0000041A 6463                   MOV         R6,R4
+          ui.cpp   196                    if(zhuangbei[0].leixing==-1)
+    0000041C 50B4                   MOV.L       @(16,R11),R0
+    0000041E 88FF                   CMP/EQ      #-1,R0
+    00000420 8B16                   BF          L567
+          ui.cpp   197                            ChsPrint(x,y,sel,(PCUCHAR)"空");
+    00000422 A01E                   BRA         L579
+    00000424 6783                   MOV         R8,R7
+    00000426              L584:                             
+    00000426 7534                   .DATA.W     H'7534
+    00000428 7532                   .DATA.W     H'7532
+    0000042A 0210                   .DATA.W     H'0210
+    0000042C <00000000>             .DATA.L     L384
+    00000430 <00000000>             .DATA.L     _ChsPrint__FiN21PCUc
+    00000434 <00000000>             .DATA.L     L385
+    00000438 <00000000>             .DATA.L     L387
+    0000043C <00000000>             .DATA.L     _GetKey
+    00000440 <00000000>             .DATA.L     _Bdisp_AllClr_VRAM
+    00000444 <00000000>             .DATA.L     L382
+    00000448 <00000000>             .DATA.L     L405
+    0000044C <00000000>             .DATA.L     __$EQUIPMENT_TYPE
+    00000450              L567:                             
+          ui.cpp   198                    else
+          ui.cpp   199                            ChsPrint(x,y,sel,(PCUCHAR)GetCardInfo(zhuangbei[i]));
+    00000450 64C3                   MOV         R12,R4
+    00000452 63C3                   MOV         R12,R3
+    00000454 4400                   SHLL        R4
+    00000456 343C                   ADD         R3,R4
+    00000458 4408                   SHLL2       R4
+    0000045A 4400                   SHLL        R4
+    0000045C BDD0                   BSR         _GetCardInfo__FR3pai
+    0000045E 34BC                   ADD         R11,R4
+    00000460 6703                   MOV         R0,R7
+    00000462              L579:                             
+    00000462 E600                   MOV         #0,R6
+    00000464 65D3                   MOV         R13,R5
+    00000466 4E0B                   JSR         @R14
+    00000468 E430                   MOV         #48,R4
+    0000046A 7C01                   ADD         #1,R12
+    0000046C 3CA3                   CMP/GE      R10,R12
+    0000046E 8FCE                   BF/S        L566
+    00000470 7D0C                   ADD         #12,R13
+    00000472 DD0C                   MOV.L       L585+4,R13 ; _GetKey
+    00000474 9E14                   MOV.W       L585,R14   ; H'7534
+          ui.cpp   200                    
+          ui.cpp   201            }
+          ui.cpp   202            while(key!=KEY_CTRL_EXE && key!=KEY_CTRL_EXIT)
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   15
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000476 A002                   BRA         L569
+    00000478 0009                   NOP
+    0000047A              L570:                             
+          ui.cpp   203            {
+          ui.cpp   204                    GetKey(&key);
+    0000047A 4D0B                   JSR         @R13
+    0000047C 64F3                   MOV         R15,R4
+    0000047E              L569:                             
+    0000047E 63F2                   MOV.L       @R15,R3
+    00000480 33E0                   CMP/EQ      R14,R3
+    00000482 8903                   BT          L572
+    00000484 910D                   MOV.W       L585+2,R1  ; H'7532
+    00000486 62F2                   MOV.L       @R15,R2
+    00000488 3210                   CMP/EQ      R1,R2
+    0000048A 8BF6                   BF          L570
+    0000048C              L572:                             
+          ui.cpp   205            }
+          ui.cpp   206    }
+    0000048C 7F08                   ADD         #8,R15
+    0000048E 4F26                   LDS.L       @R15+,PR
+    00000490 68F6                   MOV.L       @R15+,R8
+    00000492 69F6                   MOV.L       @R15+,R9
+    00000494 6AF6                   MOV.L       @R15+,R10
+    00000496 6BF6                   MOV.L       @R15+,R11
+    00000498 6CF6                   MOV.L       @R15+,R12
+    0000049A 6DF6                   MOV.L       @R15+,R13
+    0000049C 000B                   RTS
+    0000049E 6EF6                   MOV.L       @R15+,R14
+    000004A0              L585:                             
+    000004A0 7534                   .DATA.W     H'7534
+    000004A2 7532                   .DATA.W     H'7532
+    000004A4 <00000000>             .DATA.L     _GetKey
+          ui.cpp   207    
+D   00000000              _HUASE_STRING:                   ; static: HUASE_STRING
+    00000000 <00000000>             .DATA.L     L252,L253,L254,L255,L256
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+    00000014              _DIANSHU_STRING:                 ; static: DIANSHU_STRING
+    00000014 <00000000>             .DATA.L     L257,L258,L259,L260,L261,L262,L263,L264,L265,L266,L267,L268,L269,L270
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+    0000004C              __$LEIXING1_STRING:              ; static: LEIXING1_STRING
+    0000004C <00000000>             .DATA.L     L271,L272,L273
+             <00000000>   
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   16
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+             <00000000>   
+    00000058              __$LEIXING2_STRING:              ; static: LEIXING2_STRING
+    00000058 <00000000>             .DATA.L     L274,L275,L276,L277,L278,L279,L280,L281,L282,L283
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+    00000080              __$LEIXING3_STRING:              ; static: LEIXING3_STRING
+    00000080 <00000000>             .DATA.L     L284,L285
+             <00000000>   
+    00000088              __$LEIXING4_STRING:              ; static: LEIXING4_STRING
+    00000088 <00000000>             .DATA.L     L286,L287,L288,L289,L290,L291,L292,L293
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+             <00000000>   
+    000000A8              __$LEIXING5_STRING:              ; static: LEIXING5_STRING
+    000000A8 <00000000>             .DATA.L     L294
+    000000AC              __$LEIXING6_STRING:              ; static: LEIXING6_STRING
+    000000AC <00000000>             .DATA.L     L295,L296,L297
+             <00000000>   
+             <00000000>   
+    000000B8              __$LEIXING7_STRING:              ; static: LEIXING7_STRING
+    000000B8 <00000000>             .DATA.L     L298,L299,L300
+             <00000000>   
+             <00000000>   
+    000000C4              __$EQUIPMENT_TYPE:               ; static: EQUIPMENT_TYPE
+    000000C4 <00000000>             .DATA.L     L301,L302,L303,L304
+             <00000000>   
+             <00000000>   
+             <00000000>   
+C   00000000              L316:
+    00000000 C5C6B8B1B4             .DATA.B     H'C5,H'C6,H'B8,H'B1,H'B4,H'ED,H'CE,H'F3,H'00
+             EDCEF300     
+    00000009 00000001               .RES.B      1
+    0000000A 00000002               .RES.W      1
+    0000000C              L318:
+    0000000C BBA8C9ABB4             .DATA.B     H'BB,H'A8,H'C9,H'AB,H'B4,H'ED,H'CE,H'F3,H'00
+             EDCEF300     
+    00000015 00000001               .RES.B      1
+    00000016 00000002               .RES.W      1
+    00000018              L320:
+    00000018 B5E3CAFDB4             .DATA.B     H'B5,H'E3,H'CA,H'FD,H'B4,H'ED,H'CE,H'F3,H'00
+             EDCEF300     
+    00000021 00000001               .RES.B      1
+    00000022 00000002               .RES.W      1
+    00000024              L335:
+    00000024 C0E0D0CDB4             .DATA.B     H'C0,H'E0,H'D0,H'CD,H'B4,H'ED,H'CE,H'F3,H'00
+             EDCEF300     
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   17
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000002D 00000001               .RES.B      1
+    0000002E 00000002               .RES.W      1
+    00000030              L336:
+    00000030 257325732D             .SDATA      "%s%s-%s"
+             2573         
+    00000037 00                     .DATA.B     H'00
+    00000038              L357:
+    00000038 2573                   .SDATA      "%s"
+    0000003A CDE6BCD2D3             .DATA.B     H'CD,H'E6,H'BC,H'D2,H'D3,H'D0
+             D0           
+    00000040 2564                   .SDATA      "%d"
+    00000042 D5C5C5C600             .DATA.B     H'D5,H'C5,H'C5,H'C6,H'00
+    00000047 00000001               .RES.B      1
+    00000048              L358:
+    00000048 A1BEB2E9BF             .DATA.B     H'A1,H'BE,H'B2,H'E9,H'BF,H'B4,H'A1,H'BF,H'00
+             B4A1BF00     
+    00000051 00000001               .RES.B      1
+    00000052 00000002               .RES.W      1
+    00000054              L359:
+    00000054 A1BED1A1D4             .DATA.B     H'A1,H'BE,H'D1,H'A1,H'D4,H'F1,H'A1,H'BF,H'00
+             F1A1BF00     
+    0000005D 00000001               .RES.B      1
+    0000005E 00000002               .RES.W      1
+    00000060              L363:
+    00000060 BFD5B3C700             .DATA.B     H'BF,H'D5,H'B3,H'C7,H'00
+    00000065 00000001               .RES.B      1
+    00000066 00000002               .RES.W      1
+    00000068              L382:
+    00000068 CDE6BCD200             .DATA.B     H'CD,H'E6,H'BC,H'D2,H'00
+    0000006D 00000001               .RES.B      1
+    0000006E 00000002               .RES.W      1
+    00000070              L384:
+    00000070 B5E7C4D400             .DATA.B     H'B5,H'E7,H'C4,H'D4,H'00
+    00000075 00000001               .RES.B      1
+    00000076 00000002               .RES.W      1
+    00000078              L385:
+    00000078 B5B1C7B0C5             .DATA.B     H'B5,H'B1,H'C7,H'B0,H'C5,H'D0,H'B6,H'A8,H'C7,H'F8,H'A3,H'BA,H'00
+             D0B6A8C7F8   
+             A3BA00       
+    00000085 00000001               .RES.B      1
+    00000086 00000002               .RES.W      1
+    00000088              L387:
+    00000088 BFD500                 .DATA.B     H'BF,H'D5,H'00
+    0000008B 00000001               .RES.B      1
+    0000008C              L405:
+    0000008C B5B1C7B0D7             .DATA.B     H'B5,H'B1,H'C7,H'B0,H'D7,H'B0,H'B1,H'B8,H'00
+             B0B1B800     
+    00000095 00000001               .RES.B      1
+    00000096 00000002               .RES.W      1
+    00000098              L252:
+    00000098 CEDEC9AB00             .DATA.B     H'CE,H'DE,H'C9,H'AB,H'00
+    0000009D 00000001               .RES.B      1
+    0000009E 00000002               .RES.W      1
+    000000A0              L253:
+    000000A0 BADACCD200             .DATA.B     H'BA,H'DA,H'CC,H'D2,H'00
+    000000A5 00000001               .RES.B      1
+    000000A6 00000002               .RES.W      1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   18
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000A8              L254:
+    000000A8 BAECCCD200             .DATA.B     H'BA,H'EC,H'CC,H'D2,H'00
+    000000AD 00000001               .RES.B      1
+    000000AE 00000002               .RES.W      1
+    000000B0              L255:
+    000000B0 B2DDBBA800             .DATA.B     H'B2,H'DD,H'BB,H'A8,H'00
+    000000B5 00000001               .RES.B      1
+    000000B6 00000002               .RES.W      1
+    000000B8              L256:
+    000000B8 B7BDC6AC00             .DATA.B     H'B7,H'BD,H'C6,H'AC,H'00
+    000000BD 00000001               .RES.B      1
+    000000BE 00000002               .RES.W      1
+    000000C0              L257:
+    000000C0 CEDEB5E3CA             .DATA.B     H'CE,H'DE,H'B5,H'E3,H'CA,H'FD,H'00
+             FD00         
+    000000C7 00000001               .RES.B      1
+    000000C8              L258:
+    000000C8 41                     .SDATA      "A"
+    000000C9 00                     .DATA.B     H'00
+    000000CA 00000002               .RES.W      1
+    000000CC              L259:
+    000000CC 32                     .SDATA      "2"
+    000000CD 00                     .DATA.B     H'00
+    000000CE 00000002               .RES.W      1
+    000000D0              L260:
+    000000D0 33                     .SDATA      "3"
+    000000D1 00                     .DATA.B     H'00
+    000000D2 00000002               .RES.W      1
+    000000D4              L261:
+    000000D4 34                     .SDATA      "4"
+    000000D5 00                     .DATA.B     H'00
+    000000D6 00000002               .RES.W      1
+    000000D8              L262:
+    000000D8 35                     .SDATA      "5"
+    000000D9 00                     .DATA.B     H'00
+    000000DA 00000002               .RES.W      1
+    000000DC              L263:
+    000000DC 36                     .SDATA      "6"
+    000000DD 00                     .DATA.B     H'00
+    000000DE 00000002               .RES.W      1
+    000000E0              L264:
+    000000E0 37                     .SDATA      "7"
+    000000E1 00                     .DATA.B     H'00
+    000000E2 00000002               .RES.W      1
+    000000E4              L265:
+    000000E4 38                     .SDATA      "8"
+    000000E5 00                     .DATA.B     H'00
+    000000E6 00000002               .RES.W      1
+    000000E8              L266:
+    000000E8 39                     .SDATA      "9"
+    000000E9 00                     .DATA.B     H'00
+    000000EA 00000002               .RES.W      1
+    000000EC              L267:
+    000000EC 3130                   .SDATA      "10"
+    000000EE 00                     .DATA.B     H'00
+    000000EF 00000001               .RES.B      1
+    000000F0              L268:
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   19
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000F0 4A                     .SDATA      "J"
+    000000F1 00                     .DATA.B     H'00
+    000000F2 00000002               .RES.W      1
+    000000F4              L269:
+    000000F4 51                     .SDATA      "Q"
+    000000F5 00                     .DATA.B     H'00
+    000000F6 00000002               .RES.W      1
+    000000F8              L270:
+    000000F8 4B                     .SDATA      "K"
+    000000F9 00                     .DATA.B     H'00
+    000000FA 00000002               .RES.W      1
+    000000FC              L271:
+    000000FC C9B100                 .DATA.B     H'C9,H'B1,H'00
+    000000FF 00000001               .RES.B      1
+    00000100              L272:
+    00000100 C9C100                 .DATA.B     H'C9,H'C1,H'00
+    00000103 00000001               .RES.B      1
+    00000104              L273:
+    00000104 CCD200                 .DATA.B     H'CC,H'D2,H'00
+    00000107 00000001               .RES.B      1
+    00000108              L274:
+    00000108 B9FDBAD3B2             .DATA.B     H'B9,H'FD,H'BA,H'D3,H'B2,H'F0,H'C7,H'C5,H'00
+             F0C7C500     
+    00000111 00000001               .RES.B      1
+    00000112 00000002               .RES.W      1
+    00000114              L275:
+    00000114 CBB3CAD6C7             .DATA.B     H'CB,H'B3,H'CA,H'D6,H'C7,H'A3,H'D1,H'F2,H'00
+             A3D1F200     
+    0000011D 00000001               .RES.B      1
+    0000011E 00000002               .RES.W      1
+    00000120              L276:
+    00000120 CEDED6D0C9             .DATA.B     H'CE,H'DE,H'D6,H'D0,H'C9,H'FA,H'D3,H'D0,H'00
+             FAD3D000     
+    00000129 00000001               .RES.B      1
+    0000012A 00000002               .RES.W      1
+    0000012C              L277:
+    0000012C BEF6B6B700             .DATA.B     H'BE,H'F6,H'B6,H'B7,H'00
+    00000131 00000001               .RES.B      1
+    00000132 00000002               .RES.W      1
+    00000134              L278:
+    00000134 BDE8B5B6C9             .DATA.B     H'BD,H'E8,H'B5,H'B6,H'C9,H'B1,H'C8,H'CB,H'00
+             B1C8CB00     
+    0000013D 00000001               .RES.B      1
+    0000013E 00000002               .RES.W      1
+    00000140              L279:
+    00000140 CCD2D4B0BD             .DATA.B     H'CC,H'D2,H'D4,H'B0,H'BD,H'E1,H'D2,H'E5,H'00
+             E1D2E500     
+    00000149 00000001               .RES.B      1
+    0000014A 00000002               .RES.W      1
+    0000014C              L280:
+    0000014C CEE5B9C8B7             .DATA.B     H'CE,H'E5,H'B9,H'C8,H'B7,H'E1,H'B5,H'C7,H'00
+             E1B5C700     
+    00000155 00000001               .RES.B      1
+    00000156 00000002               .RES.W      1
+    00000158              L281:
+    00000158 C4CFC2F9C8             .DATA.B     H'C4,H'CF,H'C2,H'F9,H'C8,H'EB,H'C7,H'D6,H'00
+             EBC7D600     
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   20
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000161 00000001               .RES.B      1
+    00000162 00000002               .RES.W      1
+    00000164              L282:
+    00000164 CDF2BCFDC6             .DATA.B     H'CD,H'F2,H'BC,H'FD,H'C6,H'EB,H'B7,H'A2,H'00
+             EBB7A200     
+    0000016D 00000001               .RES.B      1
+    0000016E 00000002               .RES.W      1
+    00000170              L283:
+    00000170 CEDED0B8BF             .DATA.B     H'CE,H'DE,H'D0,H'B8,H'BF,H'C9,H'BB,H'F7,H'00
+             C9BBF700     
+    00000179 00000001               .RES.B      1
+    0000017A 00000002               .RES.W      1
+    0000017C              L284:
+    0000017C C0D6B2BBCB             .DATA.B     H'C0,H'D6,H'B2,H'BB,H'CB,H'BC,H'CA,H'F1,H'00
+             BCCAF100     
+    00000185 00000001               .RES.B      1
+    00000186 00000002               .RES.W      1
+    00000188              L285:
+    00000188 C9C1B5E700             .DATA.B     H'C9,H'C1,H'B5,H'E7,H'00
+    0000018D 00000001               .RES.B      1
+    0000018E 00000002               .RES.W      1
+    00000190              L286:
+    00000190 D6EEB8F0C1             .DATA.B     H'D6,H'EE,H'B8,H'F0,H'C1,H'AC,H'E5,H'F3
+             ACE5F3       
+    00000198 31                     .SDATA      "1"
+    00000199 00                     .DATA.B     H'00
+    0000019A 00000002               .RES.W      1
+    0000019C              L287:
+    0000019C B4C6D0DBCB             .DATA.B     H'B4,H'C6,H'D0,H'DB,H'CB,H'AB,H'B9,H'C9,H'BD,H'A3
+             ABB9C9BDA3   
+    000001A6 32                     .SDATA      "2"
+    000001A7 00                     .DATA.B     H'00
+    000001A8              L288:
+    000001A8 C7E0E2                 .DATA.B     H'C7,H'E0,H'E2
+    000001AB 47                     .SDATA      "G"
+    000001AC BDA3                   .DATA.B     H'BD,H'A3
+    000001AE 32                     .SDATA      "2"
+    000001AF 00                     .DATA.B     H'00
+    000001B0              L289:
+    000001B0 C7E0C1FAD9             .DATA.B     H'C7,H'E0,H'C1,H'FA,H'D9,H'C8,H'D4,H'C2,H'B5,H'B6
+             C8D4C2B5B6   
+    000001BA 33                     .SDATA      "3"
+    000001BB 00                     .DATA.B     H'00
+    000001BC              L290:
+    000001BC D5C9B0CBC9             .DATA.B     H'D5,H'C9,H'B0,H'CB,H'C9,H'DF,H'C3,H'AC
+             DFC3AC       
+    000001C4 33                     .SDATA      "3"
+    000001C5 00                     .DATA.B     H'00
+    000001C6 00000002               .RES.W      1
+    000001C8              L291:
+    000001C8 B9E1CAAFB8             .DATA.B     H'B9,H'E1,H'CA,H'AF,H'B8,H'AB
+             AB           
+    000001CE 33                     .SDATA      "3"
+    000001CF 00                     .DATA.B     H'00
+    000001D0              L292:
+    000001D0 B7BDCCECBB             .DATA.B     H'B7,H'BD,H'CC,H'EC,H'BB,H'AD,H'EA,H'AA
+             ADEAAA       
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   21
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001D8 34                     .SDATA      "4"
+    000001D9 00                     .DATA.B     H'00
+    000001DA 00000002               .RES.W      1
+    000001DC              L293:
+    000001DC F7E8F7EBB9             .DATA.B     H'F7,H'E8,H'F7,H'EB,H'B9,H'AD
+             AD           
+    000001E2 35                     .SDATA      "5"
+    000001E3 00                     .DATA.B     H'00
+    000001E4              L294:
+    000001E4 B0CBD8D4D5             .DATA.B     H'B0,H'CB,H'D8,H'D4,H'D5,H'F3,H'00
+             F300         
+    000001EB 00000001               .RES.B      1
+    000001EC              L295:
+    000001EC B3E0CDC3               .DATA.B     H'B3,H'E0,H'CD,H'C3
+    000001F0 2D31                   .SDATA      "-1"
+    000001F2 00                     .DATA.B     H'00
+    000001F3 00000001               .RES.B      1
+    000001F4              L296:
+    000001F4 B4F3CDF0               .DATA.B     H'B4,H'F3,H'CD,H'F0
+    000001F8 2D31                   .SDATA      "-1"
+    000001FA 00                     .DATA.B     H'00
+    000001FB 00000001               .RES.B      1
+    000001FC              L297:
+    000001FC D7CFD0C1               .DATA.B     H'D7,H'CF,H'D0,H'C1
+    00000200 2D31                   .SDATA      "-1"
+    00000202 00                     .DATA.B     H'00
+    00000203 00000001               .RES.B      1
+    00000204              L298:
+    00000204 D7A6BBC6B7             .DATA.B     H'D7,H'A6,H'BB,H'C6,H'B7,H'C9,H'B5,H'E7
+             C9B5E7       
+    0000020C 2B31                   .SDATA      "+1"
+    0000020E 00                     .DATA.B     H'00
+    0000020F 00000001               .RES.B      1
+    00000210              L299:
+    00000210 B5C4C2AC               .DATA.B     H'B5,H'C4,H'C2,H'AC
+    00000214 2B31                   .SDATA      "+1"
+    00000216 00                     .DATA.B     H'00
+    00000217 00000001               .RES.B      1
+    00000218              L300:
+    00000218 BEF8D3B0               .DATA.B     H'BE,H'F8,H'D3,H'B0
+    0000021C 2B31                   .SDATA      "+1"
+    0000021E 00                     .DATA.B     H'00
+    0000021F 00000001               .RES.B      1
+    00000220              L301:
+    00000220 CEE4C6F7A1             .DATA.B     H'CE,H'E4,H'C6,H'F7,H'A1,H'A1,H'A3,H'BA,H'00
+             A1A3BA00     
+    00000229 00000001               .RES.B      1
+    0000022A 00000002               .RES.W      1
+    0000022C              L302:
+    0000022C B7C0BEDFA1             .DATA.B     H'B7,H'C0,H'BE,H'DF,H'A1,H'A1,H'A3,H'BA,H'00
+             A1A3BA00     
+    00000235 00000001               .RES.B      1
+    00000236 00000002               .RES.W      1
+    00000238              L303:
+    00000238 BDF8B9A5C2             .DATA.B     H'BD,H'F8,H'B9,H'A5,H'C2,H'ED,H'A3,H'BA,H'00
+             EDA3BA00     
+    00000241 00000001               .RES.B      1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE   22
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000242 00000002               .RES.W      1
+    00000244              L304:
+    00000244 B7C0D3F9C2             .DATA.B     H'B7,H'C0,H'D3,H'F9,H'C2,H'ED,H'A3,H'BA,H'00
+             EDA3BA00     
+B   00000000              _card_info:                      ; static: card_info
+    00000000 00000080               .RES.B      128
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 22-Jul-2013 11:06:29  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:        12
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      207
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000004A8 Byte(s)
+CONSTANT SECTION (C):                               0000024D Byte(s)
+DATA     SECTION (D):                               000000D4 Byte(s)
+BSS      SECTION (B):                               00000080 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000849 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            5
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           7
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:           130
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\ADMINI~1\AppData\Local\Temp\hmk1DDF.tmp 
+

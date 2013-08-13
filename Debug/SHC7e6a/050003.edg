@@ -1,0 +1,21 @@
+20
+E:\Anderain\fx-9860\fxTTK\Debug\SHC7e6a\06001e.cmn
+C:\Program Files\CASIO\fx-9860G SDK\OS\SH\bin\shc.exe
+--gen_c_file_name
+E:\Anderain\fx-9860\fxTTK\Debug\SHC7e6a\060013.ic
+-D_SH3
+-D_BIG
+-D__HITACHI_VERSION__=0x0600
+-D__HITACHI__
+-IC:\Program Files\CASIO\fx-9860G SDK\OS\FX\include\
+-IE:\Anderain\fx-9860\fxTTK\
+-IC:\Program Files\CASIO\fx-9860G SDK\OS\SH\include\
+-IC:\Program Files\CASIO\fx-9860G SDK\OS\SH\bin\
+-L
+E:\Anderain\fx-9860\fxTTK\Debug\SHC7e6a\060015.els
+-T
+--template_info_file
+E:\Anderain\fx-9860\fxTTK\Debug\tpldir\dcconsole.ti
+--ii_file
+E:\Anderain\fx-9860\fxTTK\Debug\tpldir\dcconsole.ii
+E:\Anderain\fx-9860\fxTTK\dcconsole.cpp

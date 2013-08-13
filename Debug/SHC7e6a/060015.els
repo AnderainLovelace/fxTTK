@@ -1,0 +1,1272 @@
+L 1 "E:\Anderain\fx-9860\fxTTK\dcconsole.cpp"
+Nextern "C"
+N{
+N#include <fxlib.h>
+L 1 "C:\Program Files\CASIO\fx-9860G SDK\OS\FX\include\fxlib.h" 1
+N/*****************************************************************/
+N/*                                                               */
+N/*   CASIO fx-9860G SDK Library                                  */
+N/*                                                               */
+N/*   File name : fxlib.h                                         */
+N/*                                                               */
+N/*   Copyright (c) 2006 CASIO COMPUTER CO., LTD.                 */
+N/*                                                               */
+N/*****************************************************************/
+N#ifndef __FXLIB_H__
+N#define __FXLIB_H__
+N
+N#include "dispbios.h"
+L 1 "C:\Program Files\CASIO\fx-9860G SDK\OS\FX\include\dispbios.h" 1
+N/*****************************************************************/
+N/*                                                               */
+N/*   CASIO fx-9860G SDK Library                                  */
+N/*                                                               */
+N/*   File name : dispbios.h                                      */
+N/*                                                               */
+N/*   Copyright (c) 2006 CASIO COMPUTER CO., LTD.                 */
+N/*                                                               */
+N/*****************************************************************/
+N#ifndef __DISPBIOS_H__
+N#define __DISPBIOS_H__
+N
+N
+N// Defines
+N
+N#define IM_VRAM_WIDTH               128
+N#define IM_VRAM_HEIGHT              64
+N
+N#define IM_VRAM_SIZE                1024
+N
+N#define IM_CHARACTERS_MAX_LINE      21
+N#define IM_BYTES_MAX_LINE           (IM_CHARACTERS_MAX_LINE*2)
+N
+N#define SAVEDISP_PAGE1              1
+N#define SAVEDISP_PAGE2              5
+N#define SAVEDISP_PAGE3              6
+N
+N#define MINI_OVER                   0x10
+N#define MINI_OR                     0x11
+N#define MINI_REV                    0x12
+N#define MINI_REVOR                  0x13
+N
+N#define IM_BIOS_DD_WIDTH            IM_VRAM_WIDTH
+N#define IM_BIOS_DD_HEIGHT           IM_VRAM_HEIGHT
+N
+N#define WRITEKIND                   unsigned char
+N#define IMB_WRITEKIND_OVER          0x01
+N#define IMB_WRITEKIND_OR            0x02
+N#define IMB_WRITEKIND_AND           0x03
+N#define IMB_WRITEKIND_XOR           0x04
+N
+N#define WRITEMODIFY                 unsigned char
+N#define IMB_WRITEMODIFY_NORMAL      0x01
+N#define IMB_WRITEMODIFY_REVERCE     0x02
+N#define IMB_WRITEMODIFY_MESH        0x03
+N
+N#define AREAKIND                    unsigned char
+N#define IMB_AREAKIND_OVER           0x01
+N#define IMB_AREAKIND_MESH           0x02
+N#define IMB_AREAKIND_CLR            0x03
+N#define IMB_AREAKIND_REVERSE        0x04
+N
+N#define EFFECTWIN                   unsigned char
+N#define IMB_EFFECTWIN_OK            0x01
+N#define IMB_EFFECTWIN_NG            0x02
+N
+N
+N// Structs
+N
+Ntypedef struct tag_DISPBOX{
+N    int     left;
+N    int     top;
+N    int     right;
+N    int     bottom;
+N} DISPBOX;
+N
+Ntypedef struct tag_GRAPHDATA{
+N    int             width;
+N    int             height;
+N    unsigned char   *pBitmap;
+N} GRAPHDATA;
+N
+Ntypedef struct tag_RECTANGLE{
+N    DISPBOX         LineArea;
+N    AREAKIND        AreaKind;
+X    unsigned char        AreaKind;
+N    EFFECTWIN       EffectWin;
+X    unsigned char       EffectWin;
+N} RECTANGLE;
+N
+Ntypedef struct tag_DISPGRAPH{
+N    int             x;
+N    int             y;
+N    GRAPHDATA       GraphData;
+N    WRITEMODIFY     WriteModify;
+X    unsigned char     WriteModify;
+N    WRITEKIND       WriteKind;
+X    unsigned char       WriteKind;
+N} DISPGRAPH;
+N
+N
+N#endif
+L 14 "C:\Program Files\CASIO\fx-9860G SDK\OS\FX\include\fxlib.h" 2
+N#include "filebios.h"
+L 1 "C:\Program Files\CASIO\fx-9860G SDK\OS\FX\include\filebios.h" 1
+N/*****************************************************************/
+N/*                                                               */
+N/*   CASIO fx-9860G SDK Library                                  */
+N/*                                                               */
+N/*   File name : filebios.h                                      */
+N/*                                                               */
+N/*   Copyright (c) 2006 CASIO COMPUTER CO., LTD.                 */
+N/*                                                               */
+N/*****************************************************************/
+N#ifndef __FILEBIOS_H__
+N#define __FILEBIOS_H__
+N
+N
+N// Defines
+N
+N#define FONTCHARACTER               unsigned short
+N
+N#define _OPENMODE_READ              0x01
+N#define _OPENMODE_READ_SHARE        0x80
+N#define _OPENMODE_WRITE             0x02
+N#define _OPENMODE_READWRITE         0x03
+N#define _OPENMODE_READWRITE_SHARE   0x83
+N
+N#define _CREATEMODE_BINARY          1
+N#define _CREATEMODE_DIRECTORY       5
+N
+Nenum DEVICE_TYPE{
+N    DEVICE_MAIN_MEMORY,
+N    DEVICE_STORAGE,
+N    DEVICE_SD_CARD,                 // only fx-9860G SD model
+N};
+N
+N
+N// File system standard error code
+N#define IML_FILEERR_NOERROR             0
+N#define IML_FILEERR_ENTRYNOTFOUND       -1
+N#define IML_FILEERR_ILLEGALPARAM        -2
+N#define IML_FILEERR_ILLEGALPATH         -3
+N#define IML_FILEERR_DEVICEFULL          -4
+N#define IML_FILEERR_ILLEGALDEVICE       -5
+N#define IML_FILEERR_ILLEGALFILESYS      -6
+N#define IML_FILEERR_ILLEGALSYSTEM       -7
+N#define IML_FILEERR_ACCESSDENYED        -8
+N#define IML_FILEERR_ALREADYLOCKED       -9
+N#define IML_FILEERR_ILLEGALTASKID       -10
+N#define IML_FILEERR_PERMISSIONERROR     -11
+N#define IML_FILEERR_ENTRYFULL           -12
+N#define IML_FILEERR_ALREADYEXISTENTRY   -13
+N#define IML_FILEERR_READONLYFILE        -14
+N#define IML_FILEERR_ILLEGALFILTER       -15
+N#define IML_FILEERR_ENUMRATEEND         -16
+N#define IML_FILEERR_DEVICECHANGED       -17
+N//#define IML_FILEERR_NOTRECORDFILE     -18     // Not used
+N#define IML_FILEERR_ILLEGALSEEKPOS      -19
+N#define IML_FILEERR_ILLEGALBLOCKFILE    -20
+N//#define IML_FILEERR_DEVICENOTEXIST    -21     // Not used
+N//#define IML_FILEERR_ENDOFFILE         -22     // Not used
+N#define IML_FILEERR_NOTMOUNTDEVICE      -23
+N#define IML_FILEERR_NOTUNMOUNTDEVICE    -24
+N#define IML_FILEERR_CANNOTLOCKSYSTEM    -25
+N#define IML_FILEERR_RECORDNOTFOUND      -26
+N//#define IML_FILEERR_NOTDUALRECORDFILE -27     // Not used
+N#define IML_FILEERR_NOTALARMSUPPORT     -28
+N#define IML_FILEERR_CANNOTADDALARM      -29
+N#define IML_FILEERR_FILEFINDUSED        -30
+N#define IML_FILEERR_DEVICEERROR         -31
+N#define IML_FILEERR_SYSTEMNOTLOCKED     -32
+N#define IML_FILEERR_DEVICENOTFOUND      -33
+N#define IML_FILEERR_FILETYPEMISMATCH    -34
+N#define IML_FILEERR_NOTEMPTY            -35
+N#define IML_FILEERR_BROKENSYSTEMDATA    -36
+N#define IML_FILEERR_MEDIANOTREADY       -37
+N#define IML_FILEERR_TOOMANYALARMITEM    -38
+N#define IML_FILEERR_SAMEALARMEXIST      -39
+N#define IML_FILEERR_ACCESSSWAPAREA      -40
+N#define IML_FILEERR_MULTIMEDIACARD      -41
+N#define IML_FILEERR_COPYPROTECTION      -42
+N#define IML_FILEERR_ILLEGALFILEDATA     -43
+N
+N// FILE_INFO.type
+N#define DT_DIRECTORY            0x0000      // Directory
+N#define DT_FILE                 0x0001      // File
+N#define DT_ADDIN_APP            0x0002      // Add-In application
+N#define DT_EACT                 0x0003      // eActivity
+N#define DT_LANGUAGE             0x0004      // Language
+N#define DT_BITMAP               0x0005      // Bitmap
+N#define DT_MAINMEM              0x0006      // Main Memory data
+N#define DT_TEMP                 0x0007      // Temporary data
+N#define DT_DOT                  0x0008      // .  (Current directory)
+N#define DT_DOTDOT               0x0009      // .. (Parent directory)
+N#define DT_VOLUME               0x000A      // Volume label
+N
+N
+N// Structs
+N
+Ntypedef struct tag_FILE_INFO
+N{
+N    unsigned short  id;
+N    unsigned short  type;
+N    unsigned long   fsize;                  // File size
+N    unsigned long   dsize;                  // Data size
+N    unsigned int    property;               // The file has not been completed, except when property is 0.
+N    unsigned long   address;
+N} FILE_INFO;
+N
+N
+N#endif
+L 15 "C:\Program Files\CASIO\fx-9860G SDK\OS\FX\include\fxlib.h" 2
+N#include "keybios.h"
+L 1 "C:\Program Files\CASIO\fx-9860G SDK\OS\FX\include\keybios.h" 1
+N/*****************************************************************/
+N/*                                                               */
+N/*   CASIO fx-9860G SDK Library                                  */
+N/*                                                               */
+N/*   File name : keybios.h                                       */
+N/*                                                               */
+N/*   Copyright (c) 2006 CASIO COMPUTER CO., LTD.                 */
+N/*                                                               */
+N/*****************************************************************/
+N#ifndef __KEYBIOS_H__
+N#define __KEYBIOS_H__
+N
+N
+N// Defines
+N
+N// Character codes
+N#define KEY_CHAR_0          0x30
+N#define KEY_CHAR_1          0x31
+N#define KEY_CHAR_2          0x32
+N#define KEY_CHAR_3          0x33
+N#define KEY_CHAR_4          0x34
+N#define KEY_CHAR_5          0x35
+N#define KEY_CHAR_6          0x36
+N#define KEY_CHAR_7          0x37
+N#define KEY_CHAR_8          0x38
+N#define KEY_CHAR_9          0x39
+N#define KEY_CHAR_DP         0x2e
+N#define KEY_CHAR_EXP        0x0f
+N#define KEY_CHAR_PMINUS     0x87
+N#define KEY_CHAR_PLUS       0x89
+N#define KEY_CHAR_MINUS      0x99
+N#define KEY_CHAR_MULT       0xa9
+N#define KEY_CHAR_DIV        0xb9
+N#define KEY_CHAR_FRAC       0xbb
+N#define KEY_CHAR_LPAR       0x28
+N#define KEY_CHAR_RPAR       0x29
+N#define KEY_CHAR_COMMA      0x2c
+N#define KEY_CHAR_STORE      0x0e
+N#define KEY_CHAR_LOG        0x95
+N#define KEY_CHAR_LN         0x85
+N#define KEY_CHAR_SIN        0x81
+N#define KEY_CHAR_COS        0x82
+N#define KEY_CHAR_TAN        0x83
+N#define KEY_CHAR_SQUARE     0x8b
+N#define KEY_CHAR_POW        0xa8
+N#define KEY_CHAR_IMGNRY     0x7f50
+N#define KEY_CHAR_LIST       0x7f51
+N#define KEY_CHAR_MAT        0x7f40
+N#define KEY_CHAR_EQUAL      0x3d
+N#define KEY_CHAR_PI         0xd0
+N#define KEY_CHAR_ANS        0xc0
+N#define KEY_CHAR_LBRCKT     0x5b
+N#define KEY_CHAR_RBRCKT     0x5d
+N#define KEY_CHAR_LBRACE     0x7b
+N#define KEY_CHAR_RBRACE     0x7d
+N#define KEY_CHAR_CR         0x0d
+N#define KEY_CHAR_CUBEROOT   0x96
+N#define KEY_CHAR_RECIP      0x9b
+N#define KEY_CHAR_ANGLE      0x7f54
+N#define KEY_CHAR_EXPN10     0xb5
+N#define KEY_CHAR_EXPN       0xa5
+N#define KEY_CHAR_ASIN       0x91
+N#define KEY_CHAR_ACOS       0x92
+N#define KEY_CHAR_ATAN       0x93
+N#define KEY_CHAR_ROOT       0x86
+N#define KEY_CHAR_POWROOT    0xb8
+N#define KEY_CHAR_SPACE      0x20
+N#define KEY_CHAR_DQUATE     0x22
+N#define KEY_CHAR_VALR       0xcd
+N#define KEY_CHAR_THETA      0xce
+N#define KEY_CHAR_A          0x41
+N#define KEY_CHAR_B          0x42
+N#define KEY_CHAR_C          0x43
+N#define KEY_CHAR_D          0x44
+N#define KEY_CHAR_E          0x45
+N#define KEY_CHAR_F          0x46
+N#define KEY_CHAR_G          0x47
+N#define KEY_CHAR_H          0x48
+N#define KEY_CHAR_I          0x49
+N#define KEY_CHAR_J          0x4a
+N#define KEY_CHAR_K          0x4b
+N#define KEY_CHAR_L          0x4c
+N#define KEY_CHAR_M          0x4d
+N#define KEY_CHAR_N          0x4e
+N#define KEY_CHAR_O          0x4f
+N#define KEY_CHAR_P          0x50
+N#define KEY_CHAR_Q          0x51
+N#define KEY_CHAR_R          0x52
+N#define KEY_CHAR_S          0x53
+N#define KEY_CHAR_T          0x54
+N#define KEY_CHAR_U          0x55
+N#define KEY_CHAR_V          0x56
+N#define KEY_CHAR_W          0x57
+N#define KEY_CHAR_X          0x58
+N#define KEY_CHAR_Y          0x59
+N#define KEY_CHAR_Z          0x5a
+N
+N
+N// Control codes
+N#define KEY_CTRL_NOP        0
+N#define KEY_CTRL_EXE        30004
+N#define KEY_CTRL_DEL        30025
+N#define KEY_CTRL_AC         30015
+N#define KEY_CTRL_FD         30046
+N#define KEY_CTRL_XTT        30001
+N#define KEY_CTRL_EXIT       30002
+N#define KEY_CTRL_SHIFT      30006
+N#define KEY_CTRL_ALPHA      30007
+N#define KEY_CTRL_OPTN       30008
+N#define KEY_CTRL_VARS       30016
+N#define KEY_CTRL_UP         30018
+N#define KEY_CTRL_DOWN       30023
+N#define KEY_CTRL_LEFT       30020
+N#define KEY_CTRL_RIGHT      30021
+N#define KEY_CTRL_F1         30009
+N#define KEY_CTRL_F2         30010
+N#define KEY_CTRL_F3         30011
+N#define KEY_CTRL_F4         30012
+N#define KEY_CTRL_F5         30013
+N#define KEY_CTRL_F6         30014
+N#define KEY_CTRL_CATALOG    30100
+N#define KEY_CTRL_CAPTURE    30055
+N#define KEY_CTRL_CLIP       30050
+N#define KEY_CTRL_PASTE      30036
+N#define KEY_CTRL_INS        30033
+N#define KEY_CTRL_MIXEDFRAC  30054
+N#define KEY_CTRL_FRACCNVRT  30026
+N#define KEY_CTRL_QUIT       30029
+N#define KEY_CTRL_PRGM       30028
+N#define KEY_CTRL_SETUP      30037
+N#define KEY_CTRL_PAGEUP     30052
+N#define KEY_CTRL_PAGEDOWN   30053
+N#define KEY_CTRL_MENU       30003
+N#define	KEY_CTRL_RESERVE1	30060
+N#define	KEY_CTRL_RESERVE2	30061
+N#define	KEY_CTRL_RESERVE3	30062
+N
+N
+N// in Bkey_GetKeyWait function
+N#define KEYWAIT_HALTON_TIMEROFF     0
+N#define KEYWAIT_HALTOFF_TIMEROFF    1
+N#define KEYWAIT_HALTON_TIMERON      2
+N
+N#define KEYREP_NOEVENT              0
+N#define KEYREP_KEYEVENT             1
+N#define KEYREP_TIMEREVENT           2
+N
+N
+N#endif
+L 16 "C:\Program Files\CASIO\fx-9860G SDK\OS\FX\include\fxlib.h" 2
+N
+N
+N// Prototypes
+N
+Nvoid Bdisp_AllClr_DD(void);
+Nvoid Bdisp_AllClr_VRAM(void);
+Nvoid Bdisp_AllClr_DDVRAM(void);
+Nvoid Bdisp_AreaClr_DD(const DISPBOX *pArea);
+Nvoid Bdisp_AreaClr_VRAM(const DISPBOX *pArea);
+Nvoid Bdisp_AreaClr_DDVRAM(const DISPBOX *pArea);
+Nvoid Bdisp_AreaReverseVRAM(int x1, int y1, int x2, int y2);
+Nvoid Bdisp_GetDisp_DD(unsigned char *pData);
+Nvoid Bdisp_GetDisp_VRAM(unsigned char *pData);
+Nvoid Bdisp_PutDisp_DD(void);
+Nvoid Bdisp_PutDispArea_DD(const DISPBOX *PutDispArea);
+Nvoid Bdisp_SetPoint_DD(int x, int y, unsigned char point);
+Nvoid Bdisp_SetPoint_VRAM(int x, int y, unsigned char point);
+Nvoid Bdisp_SetPoint_DDVRAM(int x, int y, unsigned char point);
+Nint  Bdisp_GetPoint_VRAM(int x, int y);
+Nvoid Bdisp_WriteGraph_DD(const DISPGRAPH *WriteGraph);
+Nvoid Bdisp_WriteGraph_VRAM(const DISPGRAPH *WriteGraph);
+Nvoid Bdisp_WriteGraph_DDVRAM(const DISPGRAPH *WriteGraph);
+Nvoid Bdisp_ReadArea_DD(const DISPBOX *ReadArea, unsigned char *ReadData);
+Nvoid Bdisp_ReadArea_VRAM(const DISPBOX *ReadArea, unsigned char *ReadData);
+Nvoid Bdisp_DrawLineVRAM(int x1, int y1, int x2, int y2);
+Nvoid Bdisp_ClearLineVRAM(int x1, int y1, int x2, int y2);
+N
+Nvoid locate(int x, int y);
+Nvoid Print(const unsigned char *str);
+Nvoid PrintRev(const unsigned char *str);
+Nvoid PrintC(const unsigned char *c);
+Nvoid PrintRevC(const unsigned char *str);
+Nvoid PrintLine(const unsigned char *str, int max);
+Nvoid PrintRLine(const unsigned char *str, int max);
+Nvoid PrintXY(int x, int y, const unsigned char *str, int type);
+Nint PrintMini(int x, int y, const unsigned char *str, int type);
+Nvoid SaveDisp(unsigned char num);
+Nvoid RestoreDisp(unsigned char num);
+Nvoid PopUpWin(int n);
+N
+Nint Bfile_OpenFile(const FONTCHARACTER *filename, int mode);
+Xint Bfile_OpenFile(const unsigned short *filename, int mode);
+Nint Bfile_OpenMainMemory(const unsigned char *name);
+Nint Bfile_ReadFile(int HANDLE, void *buf, int size, int readpos);
+Nint Bfile_WriteFile(int HANDLE, const void *buf, int size);
+Nint Bfile_SeekFile(int HANDLE, int pos);
+Nint Bfile_CloseFile(int HANDLE);
+Nint Bfile_GetMediaFree(enum DEVICE_TYPE devicetype, int *freebytes);
+Nint Bfile_GetFileSize(int HANDLE);
+Nint Bfile_CreateFile(const FONTCHARACTER *filename, int size);
+Xint Bfile_CreateFile(const unsigned short *filename, int size);
+Nint Bfile_CreateDirectory(const FONTCHARACTER *pathname);
+Xint Bfile_CreateDirectory(const unsigned short *pathname);
+Nint Bfile_CreateMainMemory(const unsigned char *name);
+Nint Bfile_RenameMainMemory(const unsigned char *oldname, const unsigned char *newname);
+Nint Bfile_DeleteFile(const FONTCHARACTER *filename);
+Xint Bfile_DeleteFile(const unsigned short *filename);
+Nint Bfile_DeleteDirectory(const FONTCHARACTER *pathname);
+Xint Bfile_DeleteDirectory(const unsigned short *pathname);
+Nint Bfile_DeleteMainMemory(const unsigned char *name);
+Nint Bfile_FindFirst(const FONTCHARACTER *pathname, int *FindHandle, FONTCHARACTER *foundfile, FILE_INFO *fileinfo);
+Xint Bfile_FindFirst(const unsigned short *pathname, int *FindHandle, unsigned short *foundfile, FILE_INFO *fileinfo);
+Nint Bfile_FindNext(int FindHandle, FONTCHARACTER *foundfile, FILE_INFO *fileinfo);
+Xint Bfile_FindNext(int FindHandle, unsigned short *foundfile, FILE_INFO *fileinfo);
+Nint Bfile_FindClose(int FindHandle);
+N
+Nvoid Bkey_Set_RepeatTime(long FirstCount, long NextCount);
+Nvoid Bkey_Get_RepeatTime(long *FirstCount, long *NextCount);
+Nvoid Bkey_Set_RepeatTime_Default(void);
+Nint GetKeyWait(int sel, int time, int menu, unsigned int *keycode);
+Nint IsKeyDown(int keycode);
+Nint IsKeyUp(int keycode);
+Nint GetKey(unsigned int *keycode);
+N
+Nint SetTimer(int ID, int elapse, void (*hander)(void));
+Nint KillTimer(int ID);
+Nvoid Sleep(int millisecond);
+N
+Nvoid SetQuitHandler(void (*callback)(void));
+Nint INIT_ADDIN_APPLICATION(int isAppli, unsigned short OptionNum);
+N
+N
+N#endif
+L 4 "E:\Anderain\fx-9860\fxTTK\dcconsole.cpp" 2
+N}
+N#include <stdio.h>
+L 1 "C:\Program Files\CASIO\fx-9860G SDK\OS\SH\include\stdio.h" 1
+N/*------------------------------------------------------*/
+N/* SH SERIES C Compiler Ver. 1.0                        */
+N/* Copyright (c) 1992 Hitachi,Ltd.                      */
+N/* Licensed material of Hitachi,Ltd.                    */
+N/*------------------------------------------------------*/
+N/***********************************************************************/
+N/* SPEC;                                                               */
+N/*  NAME = stdio : header file for standard I/O function ;             */
+N/*                                                                     */
+N/*  FUNC = this header file do the following functions;                */
+N/*         (1) file entry table define;                                */
+N/*         (2) I/O macro define;                                       */
+N/*         (3) symbol define;                                          */
+N/*  CLAS = UNIT;                                                       */
+N/*                                                                     */
+N/* END;                                                                */
+N/***********************************************************************/
+N#ifndef _STDIO
+N#define _STDIO
+N
+N#include <stddef.h>
+L 1 "C:\Program Files\CASIO\fx-9860G SDK\OS\SH\include\stddef.h" 1
+N/*------------------------------------------------------*/
+N/* SH SERIES C Compiler Ver. 1.0                        */
+N/* Copyright (c) 1992 Hitachi,Ltd.                      */
+N/* Licensed material of Hitachi,Ltd.                    */
+N/*------------------------------------------------------*/
+N/***********************************************************************/
+N/* SPEC;                                                               */
+N/*  NAME = stddef :                                                    */
+N/*                                                                     */
+N/*  FUNC = this module do the following functions                      */
+N/*                                                                     */
+N/*  CLAS = UNIT;                                                       */
+N/*                                                                     */
+N/* END;                                                                */
+N/***********************************************************************/
+N#ifndef _STDDEF
+N#define _STDDEF
+N
+N#ifndef _PTRDIFF_T
+N#define _PTRDIFF_T
+Ntypedef int ptrdiff_t;
+N#endif
+N
+N#ifndef _SIZE_T
+N#define _SIZE_T
+Ntypedef unsigned long size_t;
+N#endif
+N
+N#ifndef  NULL
+N#ifdef  __cplusplus
+N#define  NULL           (0)
+N#else
+S#define  NULL           ((void *)0)
+N#endif
+N#endif
+N
+N#ifndef  offsetof
+N#define  offsetof(type,id) ((char *)(&(((type *)NULL)->id))  -    \
+N                            (char *)((type *)NULL))
+X#define  offsetof(type,id) ((char *)(&(((type *)NULL)->id))  -                                (char *)((type *)NULL))
+N#endif
+N
+N#ifndef  errno
+N#define  errno          _errno
+N#endif
+N
+N#endif
+L 22 "C:\Program Files\CASIO\fx-9860G SDK\OS\SH\include\stdio.h" 2
+N
+N#ifdef __cplusplus
+Nextern "C" {
+N#endif
+N
+N#define _NFILE 20
+N#define SYS_OPEN 20
+Nextern struct _iobuf {
+N       unsigned char *_bufptr;          /* buffer pointer              */
+N                long  _bufcnt;          /* buffer count                */
+N       unsigned char *_bufbase;         /* buffer base pointer         */
+N                long  _buflen;          /* buffer length               */
+N                char  _ioflag1;         /* I/O control flag 1          */
+N                char  _ioflag2;         /* I/O control flag 2          */
+N                char  _iofd;
+N}  _iob[_NFILE];
+X}  _iob[20];
+N
+Nextern volatile int         _errno;
+N
+Ntypedef struct _iobuf FILE;             /* define FILE of file-stream    */
+N
+N                                        /* define function of prototype  */
+Nextern int     _fillbuf(FILE*);
+Nextern int     _flshbuf(int,FILE*);
+Nextern void    _putcsub(FILE*);
+Nextern int     fclose(FILE *);
+Nextern int     fflush(FILE *);
+Nextern FILE   *fopen(const char *, const char *);
+Nextern FILE   *freopen(const char *, const char *, FILE *);
+Nextern void    setbuf(FILE *, char *);
+Nextern int     setvbuf(FILE *, char *, int, size_t);
+Nextern int     fprintf(FILE *, const char *, ...);
+Nextern int     fscanf(FILE *, const char *, ...);
+Nextern int     printf(const char * ,...);
+Nextern int     scanf(const char * ,...);
+Nextern int     sprintf(char *, const char * ,...);
+Nextern int     sscanf(const char *, const char * ,...);
+Nextern int     vfprintf(FILE *, const char *, char *);
+Nextern int     vprintf(const char *, char *);
+Nextern int     vsprintf(char *, const char *, char *);
+Nextern int     fgetc(FILE *);
+Nextern char   *fgets(char *, int, FILE *);
+Nextern int     fputc(int , FILE *);
+Nextern int     fputs(const char *, FILE *);
+Nextern int     getc(FILE *);
+Nextern int     getchar(void);
+Nextern char   *gets(char *);
+Nextern int     putc(int, FILE *);
+Nextern int     putchar(int);
+Nextern int     puts(const char *);
+Nextern int     ungetc(int, FILE *);
+Nextern size_t  fread(void *, size_t, size_t, FILE *);
+Nextern size_t  fwrite(const void *, size_t, size_t, FILE *);
+Nextern int     fseek(FILE *, long int, int);
+Nextern long    ftell(FILE *);
+Nextern void    rewind(FILE *);
+Nextern void    clearerr(FILE *);
+Nextern int     feof(FILE *);
+Nextern int     ferror(FILE *);
+Nextern void    perror(const char *);
+N#ifdef __cplusplus
+N}
+N#endif
+N
+N#define _IOFBF 1                        /* define _IOFBF of full buffering */
+N#define _IOLBF 2                        /* define _IOLBF of line buffering */
+N#define _IONBF 3                        /* define _IONBF of non buffering  */
+N
+N#define SEEK_SET 0                      /* allocate top position */
+N#define SEEK_CUR 1                      /* allocate current position */
+N#define SEEK_END 2                      /* allocate bottom position */
+N
+N#define BUFSIZ 512                      /* default buffer size */
+N
+N                                        /* error number define */
+N#ifndef EBADF
+N#define EBADF  1302                     /* I/O operation error */
+N#endif
+N
+N#ifndef PTRERR
+N#define PTRERR 1106                     /* fp null */
+N#endif
+N
+N#ifndef ECSPEC
+N#define ECSPEC 1304                     /* format err */
+N#endif
+N
+N#ifndef NOTOPN
+N#define NOTOPN 1300                     /* file not open */
+N#endif
+N
+N                                        /* I/O flags for _ioflag1      */
+N#define _IOREAD    1                    /* only read or update read    */
+N#define _IOWRITE   2                    /* only write or update write  */
+N#define _IORW      4                    /* update file                 */
+N#define _IOUNBUF   8                    /* unbffering I/O              */
+N#define _IOBGBUF  16                    /* automatic buffer allocate   */
+N#define _IOEOF    32                    /* end of file                 */
+N#define _IOERR    64                    /* I/O error                   */
+N#define _IOBIN   128                    /* binaly file                 */
+N#define _UNGTC     1                    /* ungetc issued (_ioflag2)    */
+N#define _IOLINBUF  2                    /* line buffering              */
+N
+N#define EOF     (-1)
+N#define _EOL    (0X0A)                  /* end of line                 */
+N
+N#define stdin       (&_iob[0])          /* standard input file */
+N#define stdout      (&_iob[1])          /* standard output file */
+N#define stderr      (&_iob[2])          /* standard error output file */
+N
+N#define getc(fp) ((fp)->_ioflag2&=~_UNGTC,(((fp)->_ioflag1&(_IORW|_IOWRITE))==\
+N (_IORW|_IOWRITE))&&(fp)->_bufcnt==(fp)->_buflen?(_fillbuf(fp)):\
+N --(fp)->_bufcnt>=0 ?((int)*(fp)->_bufptr++):_fillbuf(fp))
+X#define getc(fp) ((fp)->_ioflag2&=~_UNGTC,(((fp)->_ioflag1&(_IORW|_IOWRITE))== (_IORW|_IOWRITE))&&(fp)->_bufcnt==(fp)->_buflen?(_fillbuf(fp)): --(fp)->_bufcnt>=0 ?((int)*(fp)->_bufptr++):_fillbuf(fp))
+N#define putc(x,fp) (((((fp)->_ioflag1&_IORW)!=0&&((fp)->_ioflag1&_IOWRITE)==0)\
+N ?_putcsub(fp):(void)0),((((fp)->_bufcnt==0)||((((fp)->_ioflag2&_IOLINBUF)!=0)\
+N && ((fp)->_bufbase!=(fp)->_bufptr)&&(*((fp)->_bufptr-1)==_EOL)))\
+N ?_flshbuf((int)(x),(fp)):\
+N (((fp)->_bufcnt--),((int)(*(fp)->_bufptr++=(unsigned char)(x))))))
+X#define putc(x,fp) (((((fp)->_ioflag1&_IORW)!=0&&((fp)->_ioflag1&_IOWRITE)==0) ?_putcsub(fp):(void)0),((((fp)->_bufcnt==0)||((((fp)->_ioflag2&_IOLINBUF)!=0) && ((fp)->_bufbase!=(fp)->_bufptr)&&(*((fp)->_bufptr-1)==_EOL))) ?_flshbuf((int)(x),(fp)): (((fp)->_bufcnt--),((int)(*(fp)->_bufptr++=(unsigned char)(x))))))
+N#define getchar()   getc(stdin)
+N#define putchar(x)  putc(x,stdout)
+N#define feof(fp)    ((fp)->_ioflag1&_IOEOF)
+N#define ferror(fp)  ((fp)->_ioflag1&_IOERR)
+N#define clearerr(fp) ((void)((fp)->_ioflag1&=~(_IOEOF|_IOERR)))
+N
+N#endif
+L 6 "E:\Anderain\fx-9860\fxTTK\dcconsole.cpp" 2
+N#include <stdarg.h>
+L 1 "C:\Program Files\CASIO\fx-9860G SDK\OS\SH\include\stdarg.h" 1
+N/*------------------------------------------------------*/
+N/* SH SERIES C Compiler Ver. 1.0                        */
+N/* Copyright (c) 1992 Hitachi,Ltd.                      */
+N/* Licensed material of Hitachi,Ltd.                    */
+N/*------------------------------------------------------*/
+N/*****************************************************************/
+N/* SPEC ;                                                        */
+N/*   NAME = stdarg :                                             */
+N/*   FUNC = this module do the following finctions ;             */
+N/*                                                               */
+N/*         (1) initialize parameter pointer                      */
+N/*         (2) set parameter pointer to next parameter           */
+N/*                                                               */
+N/*                                                               */
+N/*   END ;                                                       */
+N/*****************************************************************/
+N#ifndef _STDARG
+N#define _STDARG
+N
+Ntypedef char *va_list ;
+N
+N#define va_start(ap,param) (void)((ap)=(int)\
+N((char *) &(param)+sizeof(param))%4u?\
+N(char *) &(param)+sizeof(param)+(4u-(sizeof(param)%4u)):\
+N(char *) &(param)+sizeof(param))
+X#define va_start(ap,param) (void)((ap)=(int)((char *) &(param)+sizeof(param))%4u?(char *) &(param)+sizeof(param)+(4u-(sizeof(param)%4u)):(char *) &(param)+sizeof(param))
+N
+N#define va_arg(ap,type) (*((ap)=((int)((ap)+sizeof(type))%4u?\
+N(ap)+sizeof(type)+(4u-(sizeof(type)%4u)):\
+N(ap)+sizeof(type)),\
+N(type *)((int)((ap)-sizeof(type))%4u?\
+N(ap)-sizeof(type)-(4u-(sizeof(type)%4u)):\
+N(ap)-sizeof(type))))
+X#define va_arg(ap,type) (*((ap)=((int)((ap)+sizeof(type))%4u?(ap)+sizeof(type)+(4u-(sizeof(type)%4u)):(ap)+sizeof(type)),(type *)((int)((ap)-sizeof(type))%4u?(ap)-sizeof(type)-(4u-(sizeof(type)%4u)):(ap)-sizeof(type))))
+N
+N#define va_end(ap)
+N
+N#endif
+L 7 "E:\Anderain\fx-9860\fxTTK\dcconsole.cpp" 2
+N#include <stdlib.h>
+L 1 "C:\Program Files\CASIO\fx-9860G SDK\OS\SH\include\stdlib.h" 1
+N/*------------------------------------------------------*/
+N/* SH SERIES C Compiler Ver. 1.0                        */
+N/* Copyright (c) 1992 Hitachi,Ltd.                      */
+N/* Licensed material of Hitachi,Ltd.                    */
+N/*------------------------------------------------------*/
+N/*****************************************************************/
+N/* SPEC ;                                                        */
+N/*   NAME = stdlib :                                             */
+N/*   FUNC =                                                      */
+N/*          ;                                                    */
+N/*                                                               */
+N/*                                                               */
+N/*                                                               */
+N/*   CLAS = UNIT ;                                               */
+N/*   END ;                                                       */
+N/*****************************************************************/
+N#ifndef _STDLIB
+N#define _STDLIB
+N
+N#include <stddef.h>
+N
+Nstruct _DIV_T_TAG {          /* tag define for div_t   */
+N    int quot;                /*  quotient              */
+N    int rem;                 /*  remainder             */
+N};                           /*                        */
+Nstruct _LDIV_T_TAG {         /* tag define for ldiv_t  */
+N    long quot;               /*  quotient              */
+N    long rem;                /*  remainder             */
+N};                           /*                        */
+N
+Ntypedef struct _DIV_T_TAG div_t ;
+N/* int quot; int rem */
+Ntypedef struct _LDIV_T_TAG ldiv_t ;
+N/* long quot; long rem; */
+N
+N#ifndef RAND_MAX
+N#define RAND_MAX  32767
+N#endif
+N
+N#ifndef ERANGE
+N#define ERANGE  1100
+N#endif
+N
+N#ifndef EDOM
+N#define EDOM    1101
+N#endif
+N
+N#ifndef EDIV
+N#define EDIV    1102
+N#endif
+N
+N#ifndef ESTRN
+N#define ESTRN   1104
+N#endif
+N
+N#ifndef ECBASE
+N#define ECBASE  1200
+N#endif
+N
+N#ifndef ETLN
+N#define ETLN    1202
+N#endif
+N
+N#ifndef EEXP
+N#define EEXP    1204
+N#endif
+N
+N#ifndef EEXPN
+N#define EEXPN   1206
+N#endif
+N
+N#ifndef EFLOATO
+N#define EFLOATO 1210
+N#endif
+N
+N#ifndef EFLOATU
+N#define EFLOATU 1220
+N#endif
+N
+N#ifndef EDBLO
+N#define EDBLO   1250
+N#endif
+N
+N#ifndef EDBLU
+N#define EDBLU   1260
+N#endif
+N
+N#ifndef ELDBLO
+N#define ELDBLO  1270
+N#endif
+N
+N#ifndef ELDBLU
+N#define ELDBLU  1280
+N#endif
+N
+N#ifdef __cplusplus
+Nextern "C" {
+N#endif
+Nextern volatile int _errno;
+Nextern const double _HUGE_VAL;
+N#define HUGE_VAL  _HUGE_VAL
+N
+Nextern double atof(const char *) ;
+Nextern int atoi(const char *) ;
+Nextern long int atol(const char *) ;
+Nextern double strtod(const char *, char **) ;
+Nextern long int strtol(const char *, char **, int);
+Nextern int rand(void) ;
+Nextern void srand(unsigned int);
+Nextern void *calloc(size_t, size_t);
+Nextern void free(void *) ;
+Nextern void *malloc(size_t);
+Nextern void *realloc(void *, size_t) ;
+Nextern void *bsearch(const void *, const void *, size_t, size_t,
+N                                  int(*)(const void*,const void*) ) ;
+Nextern void qsort(void *, size_t, size_t,
+N                                  int(*)(const void*,const void*) );
+N
+Nextern int abs(int);
+Nextern div_t div(int, int);
+Nextern long int labs(long int);
+Nextern ldiv_t ldiv(long int, long int);
+N#ifdef __cplusplus
+N}
+N#endif
+N
+N#endif
+L 8 "E:\Anderain\fx-9860\fxTTK\dcconsole.cpp" 2
+N#include <string.h>
+L 1 "C:\Program Files\CASIO\fx-9860G SDK\OS\SH\include\string.h" 1
+N/*------------------------------------------------------*/
+N/* SH SERIES C Compiler Ver. 1.0                        */
+N/* Copyright (c) 1992 Hitachi,Ltd.                      */
+N/* Licensed material of Hitachi,Ltd.                    */
+N/*------------------------------------------------------*/
+N/*****************************************************************/
+N/* SPEC ;                                                        */
+N/*   NAME = string :                                             */
+N/*   FUNC =                                                      */
+N/*          ;                                                    */
+N/*                                                               */
+N/*                                                               */
+N/*                                                               */
+N/*   CLAS = UNIT ;                                               */
+N/*   LINK =                                                      */
+N/*   NOTE =                                                      */
+N/*          ;                                                    */
+N/*                                                               */
+N/*   END ;                                                       */
+N/*****************************************************************/
+N#ifndef _STRING
+N#define _STRING
+N
+N#include <stddef.h>
+N
+N#ifdef __cplusplus
+Nextern "C" {
+N#include <builtin.h>
+L 1 "C:\Program Files\CASIO\fx-9860G SDK\OS\SH\include\builtin.h" 1
+N/*------------------------------------------------------*/
+N/* SH SERIES C Compiler Ver. 6.0                        */
+N/* Copyright (c) 1992, 2000 Hitachi,Ltd.                */
+N/* Licensed material of Hitachi,Ltd.                    */
+N/*------------------------------------------------------*/
+N/*****************************************************************/
+N/* SPEC ;                                                        */
+N/*   NAME = builtin :                                            */
+N/*                                                               */
+N/*   FUNC = this header file do the following functions;         */
+N/*          (1)builtin function prototype define;                */
+N/*                                                               */
+N/*   CLAS = UNIT ;                                               */
+N/*                                                               */
+N/*   END ;                                                       */
+N/*****************************************************************/
+N
+N#ifndef _BUILTIN
+N#define _BUILTIN
+N
+N#ifdef __cplusplus
+Nextern "C" {
+N/* follow math.h & mathf.h */
+Nextern float _builtin_fabsf(float);
+Nextern double _builtin_fabs(double);
+Nextern float _builtin_sqrtf(float);
+Nextern double _builtin_sqrt(double);
+N
+N/* follow private.h */
+Nextern void _builtin_fsca(long ,float *,float *);
+Nextern float _builtin_fsrra(float);
+N
+N/* follow smachine.h */
+Nextern void _builtin_set_imask(int);
+Nextern int _builtin_get_imask(void);
+Nextern void _builtin_set_cr(int);
+Nextern int _builtin_get_cr(void);
+Nextern void _builtin_set_vbr(void *);
+Nextern void *_builtin_get_vbr(void);
+Nextern void _builtin_sleep(void);
+N
+N/* follow string.h */
+Nextern char *_builtin_strcpy(char *, const char *);
+Nextern int _builtin_strcmp(const char *, const char *);
+N
+N/* follow umachine.h */
+Nextern void _builtin_set_gbr(void *);
+Nextern void *_builtin_get_gbr(void);
+Nextern unsigned char _builtin_gbr_read_byte(int);
+Nextern unsigned short _builtin_gbr_read_word(int);
+Nextern unsigned long _builtin_gbr_read_long(int);
+Nextern void _builtin_gbr_write_byte(int, unsigned char);
+Nextern void _builtin_gbr_write_word(int, unsigned short);
+Nextern void _builtin_gbr_write_long(int, unsigned long);
+Nextern void _builtin_gbr_and_byte(int, unsigned char);
+Nextern void _builtin_gbr_or_byte(int, unsigned char);
+Nextern void _builtin_gbr_xor_byte(int, unsigned char);
+Nextern int _builtin_gbr_tst_byte(int, unsigned char);
+Nextern int _builtin_tas(char *);
+Nextern int _builtin_trapa(int);
+Nextern int _builtin_macw(short *, short *, unsigned int);
+Nextern int _builtin_macwl(short *, short *, unsigned int, unsigned int);
+Nextern int _builtin_macl(int *, int *, unsigned int);
+Nextern int _builtin_macll(int *, int *, unsigned int, unsigned int);
+Nextern int _builtin_trapa_svc(...);
+Nextern void _builtin_prefetch(void *);
+Nextern void _builtin_set_fpscr(int);
+Nextern int _builtin_get_fpscr(void);
+Nextern float _builtin_fipr(float a1[], float b1[]);
+Nextern void _builtin_ftrv(float a1[], float b1[]);
+Nextern void _builtin_ftrvadd(float a1[], float b1[], float c1[]);
+Nextern void _builtin_ftrvsub(float a1[], float b1[], float c1[]);
+Nextern void _builtin_mtrx4mul(float [][4], float [][4]);
+Nextern void _builtin_mtrx4muladd(float [][4], float [][4], float [][4]);
+Nextern void _builtin_mtrx4mulsub(float [][4], float [][4], float [][4]);
+Nextern void _builtin_ld_ext(float [][4]);
+Nextern void _builtin_st_ext(float [][4]);
+Nextern void _builtin_add4(float a1[], float b1[], float c1[]);
+Nextern void _builtin_sub4(float a1[], float b1[], float c1[]);
+Nextern void _builtin_trace(int);
+N}
+N#endif /* #ifdef __cplusplus */
+N
+N#endif /* #ifndef _BUILTIN */
+L 29 "C:\Program Files\CASIO\fx-9860G SDK\OS\SH\include\string.h" 2
+N#endif
+Nextern void *memcpy(void *, const void *, size_t);
+Nextern void *memmove(void *, const void *, size_t);
+Nextern char *strcpy(char *, const char *);
+Nextern char *strncpy(char *, const char *, size_t);
+Nextern char *strcat(char *, const char *);
+Nextern char *strncat(char *, const char *,size_t);
+Nextern int  memcmp(const void *, const void *,size_t);
+Nextern int  strcmp(const char *, const char *);
+Nextern int  strncmp(const char *, const char *, size_t);
+Nextern void *memchr(const void *, int, size_t);
+Nextern char *strchr(const char *, int);
+Nextern size_t strcspn(const char *, const char *);
+Nextern char *strpbrk(const char *, const char *);
+Nextern char *strrchr(const char *, int);
+Nextern size_t strspn(const char *, const char *);
+Nextern char *strstr(const char *, const char *);
+Nextern char *strtok(char *, const char *);
+Nextern void *memset(void *, int, size_t);
+Nextern char *strerror(int);
+Nextern size_t strlen(const char *);
+N#ifdef __cplusplus
+N}
+N#endif
+N
+N#define strcpy(s1,s2) _builtin_strcpy(s1,s2)
+N#define strcmp(s1,s2) _builtin_strcmp(s1,s2)
+N
+N#endif
+L 9 "E:\Anderain\fx-9860\fxTTK\dcconsole.cpp" 2
+N#include "dcconsole.h"
+L 1 "E:\Anderain\fx-9860\fxTTK\dcconsole.h" 1
+Nint		dGetLineBox (char * s,int max,int width,int x,int y);
+Nvoid	dConsoleRedraw ();
+Nvoid	dConsolePut(const char * str);
+Nint		dGetLine (int max,char * s);
+Nint		dPrintf (const char * format,...);
+Nint 	GetLineBox (char * s,int max,int width,int x,int y);
+N
+Nint		get_int ();
+N
+Nint		ChsOpenHZK ();
+Nvoid	ChsCloseHZK ();
+Nvoid	ChsPrint (int x,int y,int sel,const unsigned char * str);
+N
+Nunsigned int WaitKey();
+N
+N#define printf		dPrintf
+L 10 "E:\Anderain\fx-9860\fxTTK\dcconsole.cpp" 2
+N#include "file.h"
+L 1 "E:\Anderain\fx-9860\fxTTK\file.h" 1
+Nextern "C"
+N{
+N
+Ntypedef unsigned short fontc;
+N
+Nfontc * char_to_font		(const char * cfname,fontc * ffname);
+Nchar * font_to_char			(const fontc *ffname,char *cfname);
+Nint	open_file 				(const char * cfname,int mode);
+N
+N}
+L 11 "E:\Anderain\fx-9860\fxTTK\dcconsole.cpp" 2
+N
+N#define LINE_ROW_MAX	5
+N#define LINE_COL_MAX	10
+N
+N#define SCR_LEFT		4
+N#define SCR_TOP			2
+N
+Ntypedef unsigned int 	uint;
+Ntypedef unsigned char	uchar;
+N
+N//-------------------------------------------------------------
+N// chinese
+N
+Nstatic int fh_HZK;
+N
+Nvoid ChsDraw(int x,int y,int width,int height,int mode,uchar * pGraph)
+N{
+N	DISPGRAPH dg;
+N
+N	dg.x					= x;
+N	dg.y					= y;
+N	dg.GraphData.width		= width;
+N	dg.GraphData.height		= height;
+N	dg.GraphData.pBitmap	= pGraph;
+N	dg.WriteModify			= mode+1;
+N	dg.WriteKind			= IMB_WRITEKIND_OVER;
+X	dg.WriteKind			= 0x01;
+N
+N	Bdisp_WriteGraph_VRAM(&dg);
+N}
+N
+Nvoid ChsDrawChar (int x,int y,int sel,uchar c1,uchar c2)
+N{
+N	uchar mat[24];
+N	uint sec,pot;
+N
+N	sec = c1-0xa1;
+N	pot = c2-0xa1;
+N
+N	Bfile_ReadFile(fh_HZK,mat,24,(94*sec+pot)*24);
+N
+N	ChsDraw(x,y,12,12,sel,mat);
+N}
+N
+Nint ChsOpenHZK ()
+N{
+N	fh_HZK = open_file("\\\\crd0\\HZK12.df",_OPENMODE_READ_SHARE);
+X	fh_HZK = open_file("\\\\crd0\\HZK12.df",0x80);
+N	return fh_HZK<0;// TRUE if open fail
+N}
+N
+Nvoid ChsCloseHZK ()
+N{
+N	Bfile_CloseFile(fh_HZK);
+N}
+N
+Nvoid ChsPrint (int x,int y,int sel,const unsigned char * str)
+N{
+N	for(;*str;++str)
+N	{
+N		if ((*str) & 0x80) // GB ?
+N		{
+N			ChsDrawChar(x,y,sel,*str,*(str+1));
+N			++str;
+N		}
+N		else
+N		{
+N			ChsDrawChar(x,y,sel,0xA3,0x80+*str);
+N		}
+N		x+=12;
+N	}
+N}
+N
+N//-------------------------------------------------------------
+N// console
+Nuchar	line_buf[LINE_ROW_MAX][LINE_COL_MAX+1][2];
+Xuchar	line_buf[5][10+1][2];
+Nint		line_index	= 0;
+Nint		line_x		= 0;
+Nint		line_start	= 0;
+Nint		line_count	= 0;
+N
+Nvoid dAreaClear (int left,int top,int right,int bottom,int sel) 
+N{ 
+N	DISPBOX box; 
+N	box.left = left;box.top = top;box.right = right;box.bottom = bottom; 
+N 	if (sel != 1) 
+N		Bdisp_AreaClr_VRAM (&box); 
+N	if (sel != 0){ 
+N 		Bdisp_DrawLineVRAM (box.left,box.top,box.right,box.top); 
+N		Bdisp_DrawLineVRAM (box.left,box.bottom,box.right,box.bottom); 
+N		Bdisp_DrawLineVRAM (box.left,box.top,box.left,box.bottom); 
+N		Bdisp_DrawLineVRAM (box.right,box.top,box.right,box.bottom); 
+N    } 
+N}
+N
+Nuint WaitKey ()
+N{
+N	uint key;GetKey(&key);return key;
+N}
+N
+Nchar dGetKeyChar (uint key)
+N{
+N	if (key>=KEY_CHAR_A && key<=KEY_CHAR_Z)
+X	if (key>=0x41 && key<=0x5a)
+N		return key;
+N	else if (key==KEY_CHAR_PMINUS || key==KEY_CHAR_MINUS)
+X	else if (key==0x87 || key==0x99)
+N		return '-';
+N	else if (key>=KEY_CHAR_0 && key<= KEY_CHAR_9)
+X	else if (key>=0x30 && key<= 0x39)
+N		return key;
+N
+N	return 0;
+N}
+N
+Nint GetLineBox (char * s,int max,int width,int x,int y)
+N{
+N	int		pos = strlen(s);
+N	int		refresh = 1;
+N	uint	key;
+N	char	c;
+N	
+N	while(1)
+N	{
+N		if (refresh)
+N		{
+N			dAreaClear(x,y,x+width*6+2,y+10,2);
+N
+N			if (pos<width-1)
+N			{
+N				PrintXY (x+1,y+2,(uchar*)s,0);
+N				PrintXY (x+1+pos*6,y+2,(uchar*)"_",0);
+N			}
+N			else
+N			{
+N				PrintXY (x+1,y+2,(uchar*)(s+pos-width+1),0);
+N				PrintXY (x+1+(width-1)*6,y+2,(uchar*)"_",0);
+N			}
+N			refresh = 0;
+N		}
+N
+N		GetKey(&key);
+N
+N		if ((c=dGetKeyChar(key))!=0)
+N		{
+N			if (pos>=max) continue;
+N
+N			s[pos++] = c;s[pos] = '\0';
+N			refresh = 1;
+N		}
+N		else
+N		{
+N			if (key==KEY_CTRL_DEL)
+X			if (key==30025)
+N			{
+N				if (pos<=0) continue;
+N				s[--pos] = '\0';
+N				refresh  = 1;
+N			}
+N			else if (key==KEY_CTRL_AC)
+X			else if (key==30015)
+N			{
+N				*s		= 0;
+N				pos		= 0;
+N				refresh	= 1;
+N			}
+N			else if (key==KEY_CTRL_EXE) return 1;
+X			else if (key==30004) return 1;
+N			else if (key==KEY_CTRL_EXIT) return 0;
+X			else if (key==30002) return 0;
+N			
+N		}
+N	}
+N}
+N
+Nint get_int ()
+N{
+N	char buf[128];
+N	GetLineBox (buf,128,12,0,0);
+N	return atol(buf);
+N}
+N
+Nvoid dConsoleRedraw ()
+N{
+N	int i,j,left = SCR_LEFT,top = SCR_TOP;
+X	int i,j,left = 4,top = 2;
+N	Bdisp_AllClr_VRAM();
+N	for(i=0,j=line_start;i<line_count;++i,top+=12)
+N	{
+N		ChsPrint(left,top,0,(uchar*)line_buf[j]);
+N		if (++j>=LINE_ROW_MAX) j = 0;
+X		if (++j>=5) j = 0;
+N	}
+N}
+Nvoid dConsolePut(const char * str)
+N{
+N	if (line_count == 0) line_count = 1;
+N	for (;*str;++str)
+N	{
+N		if (*str != '\n')
+N		{
+N			uchar * s = line_buf[line_index][line_x++];
+N			if (*str & 0x80)
+N			{
+N				s[0] = *str;
+N				s[1] = *++str;
+N			}
+N			else
+N			{
+N				s[0] = 0xA3;
+N				s[1] = (*str+0x80);
+N			}
+N		}
+N		else
+N		{
+N			line_buf[line_index][line_x][0] = 0;
+N			line_x = LINE_COL_MAX;
+X			line_x = 10;
+N		}
+N		if (line_x>=LINE_COL_MAX)
+X		if (line_x>=10)
+N		{
+N			line_buf[line_index][line_x][0] = 0;
+N
+N			line_x = 0;
+N			if (line_count<LINE_ROW_MAX)
+X			if (line_count<5)
+N			{
+N				++line_count;
+N			}
+N			else
+N			{
+N				line_start++;
+N				if (line_start>=LINE_ROW_MAX) line_start = 0;
+X				if (line_start>=5) line_start = 0;
+N			}
+N			line_index++;
+N			if (line_index>=LINE_ROW_MAX) line_index = 0;
+X			if (line_index>=5) line_index = 0;
+N		}
+N	}
+N	line_buf[line_index][line_x][0] = '\0';
+N	dConsoleRedraw();
+N}
+N
+Nint dPrintf (const char * format,...)
+N{
+N	char	buf[256];
+N	int		length;
+N	va_list	arg_list;
+N
+N	va_start(arg_list,format);
+X	(void)((arg_list)=(int)((char *) &(format)+sizeof(format))%4u?(char *) &(format)+sizeof(format)+(4u-(sizeof(format)%4u)):(char *) &(format)+sizeof(format));
+N	length = vsprintf(buf,format,arg_list);
+N	va_end(arg_list);
+X	;
+N
+N	dConsolePut (buf);
+N	WaitKey();
+N	return length;
+N}
+N
